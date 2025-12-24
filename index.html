@@ -13,36 +13,35 @@
         /* Top navigation bar */
         .top-bar {
             background-color: #000;
-            height: 80px;
+            height: 110px;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding: 0 30px;
+            padding: 0 40px;
             box-sizing: border-box;
         }
 
         .nav-items {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 40px;
         }
 
         .nav-items a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 20px;
+            font-size: 26px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
         }
 
         .nav-items a:hover {
-            text-decoration: underline;
+            opacity: 0.85;
         }
 
         .nav-items img {
-            height: 40px;
+            height: 64px;
             width: auto;
             display: block;
         }
@@ -52,24 +51,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 140px;
+            margin-top: 180px;
         }
 
         .hero-logo {
-            width: 200px;
+            width: 320px;
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(70px);
             animation: logoFadeUp 1.5s ease-out forwards;
             animation-delay: 1.5s;
         }
 
         .hero-text {
-            margin-top: 24px;
-            font-size: 30px;
+            margin-top: 32px;
+            font-size: 46px;
             font-weight: 600;
             opacity: 0;
             animation: textFadeIn 0.5s ease-out forwards;
-            animation-delay: 3.5s; /* 1.5s delay + 1.5s logo + 0.5s gap */
+            animation-delay: 3.5s;
         }
 
         @keyframes logoFadeUp {
@@ -92,7 +91,6 @@
         <div class="nav-items">
             <a href="index.html">
                 <img src="logo.png" alt="Home">
-                Home
             </a>
             <a href="webUI/index.html">Extensions</a>
         </div>

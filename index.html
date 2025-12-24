@@ -13,24 +13,28 @@
         /* Top navigation bar */
         .top-bar {
             background-color: #000;
-            height: 60px;
+            height: 80px;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding: 0 20px;
+            justify-content: flex-start;
+            padding: 0 30px;
             box-sizing: border-box;
         }
 
         .nav-items {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 25px;
         }
 
         .nav-items a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .nav-items a:hover {
@@ -38,33 +42,34 @@
         }
 
         .nav-items img {
-            height: 32px;
+            height: 40px;
             width: auto;
             display: block;
         }
 
-        /* Center animation container */
+        /* Center content */
         .hero {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 120px;
+            margin-top: 140px;
         }
 
         .hero-logo {
-            width: 160px;
+            width: 200px;
             opacity: 0;
-            transform: translateY(40px);
-            animation: logoFadeUp 1.2s ease-out forwards;
+            transform: translateY(50px);
+            animation: logoFadeUp 1.5s ease-out forwards;
+            animation-delay: 1.5s;
         }
 
         .hero-text {
-            margin-top: 20px;
-            font-size: 28px;
+            margin-top: 24px;
+            font-size: 30px;
             font-weight: 600;
             opacity: 0;
-            animation: textFadeIn 0.8s ease-out forwards;
-            animation-delay: 1.2s;
+            animation: textFadeIn 0.5s ease-out forwards;
+            animation-delay: 3.5s; /* 1.5s delay + 1.5s logo + 0.5s gap */
         }
 
         @keyframes logoFadeUp {
@@ -85,10 +90,11 @@
 
     <div class="top-bar">
         <div class="nav-items">
-            <a href="webUI/index.html">Extensions</a>
             <a href="index.html">
-                <img src="logo.png" alt="Logo">
+                <img src="logo.png" alt="Home">
+                Home
             </a>
+            <a href="webUI/index.html">Extensions</a>
         </div>
     </div>
 

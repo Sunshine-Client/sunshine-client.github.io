@@ -7,6 +7,7 @@
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
+            background-color: #ffffff;
         }
 
         /* Top navigation bar */
@@ -41,6 +42,43 @@
             width: auto;
             display: block;
         }
+
+        /* Center animation container */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 120px;
+        }
+
+        .hero-logo {
+            width: 160px;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: logoFadeUp 1.2s ease-out forwards;
+        }
+
+        .hero-text {
+            margin-top: 20px;
+            font-size: 28px;
+            font-weight: 600;
+            opacity: 0;
+            animation: textFadeIn 0.8s ease-out forwards;
+            animation-delay: 1.2s;
+        }
+
+        @keyframes logoFadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes textFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -52,6 +90,11 @@
                 <img src="logo.png" alt="Logo">
             </a>
         </div>
+    </div>
+
+    <div class="hero">
+        <img src="logo.png" alt="Large Logo" class="hero-logo">
+        <div class="hero-text">Sunshine Client</div>
     </div>
 
 </body>

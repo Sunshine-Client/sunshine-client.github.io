@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Download | Sunshine Client</title>
+
+    <style>
+        /* Base */
+        body {
+            margin: 0;
+            font-family: "Montserrat", Arial, Helvetica, sans-serif;
+            color: white;
+            background-image: url("download_BG.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Nav bar (same structure as index) */
+        .top-bar {
+            background-color: #000;
+            height: 167px;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            box-sizing: border-box;
+        }
+
+        .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-items img {
+            height: 200px;
+            width: auto;
+            cursor: pointer;
+        }
+
+        .nav-items a {
+            color: white;
+            text-decoration: none;
+            font-size: 70px;
+            font-weight: 500;
+        }
+
+        .nav-items a:hover {
+            opacity: 0.85;
+        }
+
+        /* Main download section */
+        .download-hero {
+            min-height: calc(100vh - 167px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        /* Gold textured button */
+        .download-button {
+            font-size: 64px;
+            padding: 30px 90px;
+            border-radius: 16px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            color: #2b1c00;
+
+            background-image:
+                linear-gradient(
+                    135deg,
+                    #f6d365 0%,
+                    #fda085 100%
+                );
+            box-shadow:
+                inset 0 2px 4px rgba(255,255,255,0.6),
+                inset 0 -4px 6px rgba(0,0,0,0.25),
+                0 12px 30px rgba(0,0,0,0.45);
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+        .download-button:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                inset 0 2px 4px rgba(255,255,255,0.6),
+                inset 0 -4px 6px rgba(0,0,0,0.25),
+                0 18px 40px rgba(0,0,0,0.6);
+        }
+
+        .download-button:active {
+            transform: translateY(0);
+        }
+
+        /* Scroll hint */
+        .scroll-hint {
+            margin-top: 40px;
+            font-size: 22px;
+            opacity: 0.75;
+        }
+
+        /* Previous versions section */
+        .versions {
+            padding: 120px 10%;
+            display: none; /* REMOVE THIS LINE WHEN YOU ADD VERSIONS */
+        }
+
+        .versions h2 {
+            font-size: 56px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .version-entry {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 30px 40px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .version-entry span {
+            font-size: 32px;
+            font-weight: 500;
+        }
+
+        .version-entry a {
+            font-size: 28px;
+            text-decoration: none;
+            color: #ffd36a;
+            font-weight: 600;
+        }
+
+        .version-entry a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav bar -->
+    <div class="top-bar">
+        <div class="nav-items">
+            <a href="index.html">
+                <img src="logo.png" alt="Home">
+            </a>
+            <a href="webUI/index.html">Extensions</a>
+        </div>
+    </div>
+
+    <!-- Main download button -->
+    <div class="download-hero">
+        <a href="PUT_DOWNLOAD_LINK_HERE">
+            <button class="download-button">Download Latest Version</button>
+        </a>
+        <div class="scroll-hint">Scroll down for older versions</div>
+    </div>
+
+    <!-- Previous versions (hidden for now) -->
+    <div class="versions">
+        <h2>Previous Versions</h2>
+
+        <!-- Copy this block to add more versions -->
+        <div class="version-entry">
+            <span>Sunshine Client v1.0.0</span>
+            <a href="PUT_OLD_VERSION_LINK_HERE">Download</a>
+        </div>
+        <!-- End version block -->
+
+    </div>
+
+</body>
+</html>

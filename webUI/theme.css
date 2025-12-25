@@ -18,22 +18,20 @@
 }
 
 /* ================================
-   Variables
+   Design Tokens
 ================================ */
 
 :root {
   --font-regular: "Futura Medium", Arial, sans-serif;
   --font-bold: "Futura Heavy", Arial, sans-serif;
 
-  --bg-main: rgba(14, 14, 18, 0.8);
-  --bg-panel: rgba(22, 22, 28, 0.9);
-  --bg-hover: rgba(255, 255, 255, 0.06);
+  --bg-main: rgba(18, 18, 22, 0.85);
+  --bg-panel: rgba(28, 28, 34, 0.9);
+  --bg-hover: rgba(255, 255, 255, 0.07);
 
   --accent: #f5c84c;
-  --accent-soft: rgba(245, 200, 76, 0.2);
-
   --text-main: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.65);
 
   --radius: 12px;
   --radius-small: 8px;
@@ -43,7 +41,7 @@
 }
 
 /* ================================
-   Base
+   Base Reset
 ================================ */
 
 * {
@@ -54,150 +52,151 @@ body {
   margin: 0;
   font-family: var(--font-regular);
   color: var(--text-main);
+  background: transparent;
 }
 
 a {
-  color: inherit;
+  color: var(--text-main);
   text-decoration: none;
+  transition: opacity var(--transition-fast);
 }
 
-/* ================================
-   Top Navigation Bar
-================================ */
-
-.top-bar {
-  height: 96px;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.top-bar img {
-  height: 56px;
-}
-
-.top-bar a {
-  font-size: 22px;
-  font-family: var(--font-bold);
+a:hover {
   opacity: 0.9;
 }
 
-.top-bar a:hover {
-  opacity: 1;
+/* ================================
+   Navigation
+================================ */
+
+.top-bar {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ================================
-   Main Layout
+   Panels
 ================================ */
-
-.page {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 0 24px;
-}
 
 .panel {
   background: var(--bg-main);
+  backdrop-filter: blur(14px);
   border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.08);
   padding: 24px;
 }
 
 /* ================================
-   Category Dropdowns
+   Buttons
 ================================ */
 
-.category {
-  border-radius: var(--radius-small);
-  overflow: hidden;
-  margin-bottom: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.category-header {
-  padding: 16px 20px;
-  cursor: pointer;
-  user-select: none;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background: var(--bg-panel);
-  transition: background var(--transition-fast);
-}
-
-.category-header:hover {
-  background: var(--bg-hover);
-}
-
-.category-title {
+.button {
   font-family: var(--font-bold);
-  font-size: 20px;
+  font-size: 17px;
+  padding: 14px 22px;
+  border-radius: var(--radius-small);
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-main);
+  cursor: pointer;
+
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
 }
 
-.category-arrow {
-  transition: transform var(--transition-fast);
+.button:hover {
+  background: var(--bg-hover);
+  transform: translateY(-1px);
 }
 
-.category.open .category-arrow {
-  transform: rotate(90deg);
+.button:active {
+  transform: translateY(0);
 }
 
-.category-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height var(--transition-medium);
-  background: rgba(0,0,0,0.35);
-}
-
-.category.open .category-content {
-  max-height: 800px;
+.button.accent {
+  background: var(--accent);
+  color: #000;
+  border: none;
 }
 
 /* ================================
-   Setting Rows
+   Inputs
 ================================ */
 
-.setting {
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid rgba(255,255,255,0.05);
+input,
+select {
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-small);
+  padding: 10px 14px;
+  color: var(--text-main);
+  font-family: var(--font-regular);
+  outline: none;
+  transition: border-color var(--transition-fast),
+              background var(--transition-fast);
 }
 
-.setting:first-child {
-  border-top: none;
-}
-
-.setting-label {
-  display: flex;
-  flex-direction: column;
-}
-
-.setting-name {
-  font-size: 16px;
-}
-
-.setting-desc {
-  font-size: 13px;
+input::placeholder {
   color: var(--text-muted);
-  margin-top: 4px;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  background: rgba(0,0,0,0.65);
 }
 
 /* ================================
-   Toggle
+   Typography
+================================ */
+
+h1, h2, h3 {
+  font-family: var(--font-bold);
+  margin: 0;
+}
+
+p {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ================================
+   Animations
+================================ */
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ================================
+   Toggles
 ================================ */
 
 .toggle {
   position: relative;
-  width: 46px;
+  width: 48px;
   height: 24px;
 }
 
@@ -210,7 +209,7 @@ a {
 .toggle-slider {
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.2);
   border-radius: 999px;
   transition: background var(--transition-fast);
 }
@@ -220,9 +219,9 @@ a {
   position: absolute;
   width: 18px;
   height: 18px;
-  top: 3px;
   left: 3px;
-  background: white;
+  top: 3px;
+  background: #fff;
   border-radius: 50%;
   transition: transform var(--transition-fast);
 }
@@ -232,57 +231,7 @@ a {
 }
 
 .toggle input:checked + .toggle-slider::before {
-  transform: translateX(22px);
-}
-
-/* ================================
-   Inputs / Selects
-================================ */
-
-input[type="number"],
-select {
-  background: rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 6px;
-  padding: 8px 10px;
-  color: var(--text-main);
-  font-family: var(--font-regular);
-}
-
-input[type="number"]:focus,
-select:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-/* ================================
-   Status / Info Text
-================================ */
-
-.status {
-  font-size: 15px;
-  color: var(--text-muted);
-}
-
-.status.good {
-  color: #6cff9e;
-}
-
-.status.bad {
-  color: #ff6c6c;
-}
-
-/* ================================
-   Animations
-================================ */
-
-.fade-in {
-  animation: fadeIn 0.4s ease forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  transform: translateX(24px);
 }
 
 /* ================================
@@ -293,7 +242,27 @@ select:focus {
   width: 10px;
 }
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ================================
+   Code
+================================ */
+
+code,
+pre {
+  font-family: "CaskaydiaMono", monospace;
+  background: rgba(0,0,0,0.45);
+  padding: 6px 10px;
   border-radius: 6px;
 }

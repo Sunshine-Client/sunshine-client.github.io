@@ -263,37 +263,39 @@
 
         return (
           <div className="mb-4">
-            <div className="flex items-center justify-between mb-3 px-2">
-              <button
-                onClick={() => toggleCategory(categoryPath)}
-                className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
-              >
-                <svg className={`w-5 h-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-                <span className="font-medium">{title}</span>
-              </button>
-              
-              <div className="relative">
+            <div className="bg-black bg-opacity-60 rounded-lg px-4 py-2 mb-3">
+              <div className="flex items-center justify-between">
                 <button
-                  onClick={() => toggleCategoryMenu(categoryPath)}
-                  className="p-1 hover:bg-gray-700 rounded transition-colors"
+                  onClick={() => toggleCategory(categoryPath)}
+                  className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
                 >
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                  <svg className={`w-5 h-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
+                  <span className="font-medium">{title}</span>
                 </button>
                 
-                {showMenu && (
-                  <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
-                    <button
-                      onClick={() => selectAllInSubcategory(data.items, categoryPath)}
-                      className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors rounded"
-                    >
-                      Select All/None
-                    </button>
-                  </div>
-                )}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleCategoryMenu(categoryPath)}
+                    className="p-1 hover:bg-gray-700 rounded transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                    </svg>
+                  </button>
+                  
+                  {showMenu && (
+                    <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
+                      <button
+                        onClick={() => selectAllInSubcategory(data.items, categoryPath)}
+                        className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors rounded"
+                      >
+                        Select All/None
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             
@@ -325,40 +327,42 @@
 
         return (
           <div className="mb-6">
-            <div className="flex items-center justify-between mb-4 px-2">
-              <button
-                onClick={() => toggleCategory(title)}
-                className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
-              >
-                <svg className={`w-6 h-6 transition-transform ${isExpanded ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-                <span className="text-xl font-bold">{title}</span>
-              </button>
-              
-              {data.items && (
-                <div className="relative">
-                  <button
-                    onClick={() => toggleCategoryMenu(title)}
-                    className="p-1 hover:bg-gray-700 rounded transition-colors"
-                  >
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                    </svg>
-                  </button>
-                  
-                  {showMenu && (
-                    <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
-                      <button
-                        onClick={() => selectAllInSubcategory(data.items, title)}
-                        className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors rounded"
-                      >
-                        Select All/None
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
+            <div className="bg-black bg-opacity-70 rounded-lg px-4 py-3 mb-4">
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => toggleCategory(title)}
+                  className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
+                >
+                  <svg className={`w-6 h-6 transition-transform ${isExpanded ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                  <span className="text-xl font-bold">{title}</span>
+                </button>
+                
+                {data.items && (
+                  <div className="relative">
+                    <button
+                      onClick={() => toggleCategoryMenu(title)}
+                      className="p-1 hover:bg-gray-700 rounded transition-colors"
+                    >
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                      </svg>
+                    </button>
+                    
+                    {showMenu && (
+                      <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
+                        <button
+                          onClick={() => selectAllInSubcategory(data.items, title)}
+                          className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors rounded"
+                        >
+                          Select All/None
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
             
             {isExpanded && (

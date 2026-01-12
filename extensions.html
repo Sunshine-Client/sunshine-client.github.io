@@ -1,513 +1,489 @@
-import React, { useState, useMemo } from 'react';
-import { Download, AlertTriangle, ChevronDown, ChevronRight, MoreVertical, X } from 'lucide-react';
-
-const ExtensionPackBuilder = () => {
-  const [selectedExtensions, setSelectedExtensions] = useState([]);
-  const [expandedCategories, setExpandedCategories] = useState({});
-  const [showPreview, setShowPreview] = useState(true);
-
-  // Extension data structure
-  const extensions = {
-    "3D": {
-      items: [
-        { id: "3d-mace", name: "3D Mace", path: "packs/3d/3d-mace/" },
-        { id: "3d-fungi", name: "3D Fungi", path: "packs/3d/3d-fungi/" },
-        { id: "3d-sun-moon", name: "3D Sun and Moon", path: "packs/3d/3d-sun-moon/" }
-      ]
-    },
-    "UI": {
-      items: [
-        { id: "brewing-guide", name: "Brewing Guide", path: "packs/ui/brewing-guide/" },
-        { id: "dark-ui", name: "Dark UI", path: "packs/ui/dark-ui/" },
-        { id: "numbered-hotbar", name: "Numbered Hotbar", path: "packs/ui/numbered-hotbar/" },
-        { id: "rainbow-xp-bar", name: "Rainbow Experience Bar", path: "packs/ui/rainbow-xp-bar/" },
-        { id: "clearer-wither-hearts", name: "Clearer Wither Hearts", path: "packs/ui/clearer-wither-hearts/" },
-        { id: "translucent-tooltips", name: "Translucent Tooltips", path: "packs/ui/translucent-tooltips/" }
-      ],
-      subcategories: {
-        "Hunger Bars": {
-          items: [
-            { id: "hunger-apple", name: "Apple", path: "packs/ui/hunger-bars/apple/" },
-            { id: "hunger-baked-potato", name: "Baked Potato", path: "packs/ui/hunger-bars/baked-potato/" },
-            { id: "hunger-beef", name: "Beef", path: "packs/ui/hunger-bars/beef/" },
-            { id: "hunger-beetroot", name: "Beetroot", path: "packs/ui/hunger-bars/beetroot/" },
-            { id: "hunger-beetroot-soup", name: "Beetroot Soup", path: "packs/ui/hunger-bars/beetroot-soup/" },
-            { id: "hunger-bread", name: "Bread", path: "packs/ui/hunger-bars/bread/" },
-            { id: "hunger-cake", name: "Cake", path: "packs/ui/hunger-bars/cake/" },
-            { id: "hunger-carrot", name: "Carrot", path: "packs/ui/hunger-bars/carrot/" },
-            { id: "hunger-chicken", name: "Chicken", path: "packs/ui/hunger-bars/chicken/" },
-            { id: "hunger-chorus-fruit", name: "Chorus Fruit", path: "packs/ui/hunger-bars/chorus-fruit/" },
-            { id: "hunger-cod", name: "Cod", path: "packs/ui/hunger-bars/cod/" },
-            { id: "hunger-cookie", name: "Cookie", path: "packs/ui/hunger-bars/cookie/" },
-            { id: "hunger-dried-kelp", name: "Dried Kelp", path: "packs/ui/hunger-bars/dried-kelp/" },
-            { id: "hunger-glow-berries", name: "Glow Berries", path: "packs/ui/hunger-bars/glow-berries/" },
-            { id: "hunger-golden-apple", name: "Golden Apple", path: "packs/ui/hunger-bars/golden-apple/" },
-            { id: "hunger-golden-carrot", name: "Golden Carrot", path: "packs/ui/hunger-bars/golden-carrot/" },
-            { id: "hunger-honey", name: "Honey", path: "packs/ui/hunger-bars/honey/" },
-            { id: "hunger-melon", name: "Melon", path: "packs/ui/hunger-bars/melon/" },
-            { id: "hunger-mushroom-stew", name: "Mushroom Stew", path: "packs/ui/hunger-bars/mushroom-stew/" },
-            { id: "hunger-mutton", name: "Mutton", path: "packs/ui/hunger-bars/mutton/" },
-            { id: "hunger-poison-potato", name: "Poison Potato", path: "packs/ui/hunger-bars/poison-potato/" },
-            { id: "hunger-potato", name: "Potato", path: "packs/ui/hunger-bars/potato/" },
-            { id: "hunger-pufferfish", name: "Pufferfish", path: "packs/ui/hunger-bars/pufferfish/" },
-            { id: "hunger-pumpkin", name: "Pumpkin", path: "packs/ui/hunger-bars/pumpkin/" },
-            { id: "hunger-rabbit", name: "Rabbit", path: "packs/ui/hunger-bars/rabbit/" },
-            { id: "hunger-rabbit-stew", name: "Rabbit Stew", path: "packs/ui/hunger-bars/rabbit-stew/" },
-            { id: "hunger-rotten-flesh", name: "Rotten Flesh", path: "packs/ui/hunger-bars/rotten-flesh/" },
-            { id: "hunger-salmon", name: "Salmon", path: "packs/ui/hunger-bars/salmon/" },
-            { id: "hunger-spider-eye", name: "Spider Eye", path: "packs/ui/hunger-bars/spider-eye/" },
-            { id: "hunger-suspicious-stew", name: "Suspicious Stew", path: "packs/ui/hunger-bars/suspicious-stew/" },
-            { id: "hunger-sweet-berries", name: "Sweet Berries", path: "packs/ui/hunger-bars/sweet-berries/" },
-            { id: "hunger-tropical-fish", name: "Tropical Fish", path: "packs/ui/hunger-bars/tropical-fish/" }
-          ]
-        },
-        "Hotbar Selector": {
-          items: [
-            { id: "hotbar-black", name: "Black", path: "packs/ui/hotbar-selector/black/" },
-            { id: "hotbar-blue", name: "Blue", path: "packs/ui/hotbar-selector/blue/" },
-            { id: "hotbar-brown", name: "Brown", path: "packs/ui/hotbar-selector/brown/" },
-            { id: "hotbar-cyan", name: "Cyan", path: "packs/ui/hotbar-selector/cyan/" },
-            { id: "hotbar-grey", name: "Grey", path: "packs/ui/hotbar-selector/grey/" },
-            { id: "hotbar-green", name: "Green", path: "packs/ui/hotbar-selector/green/" },
-            { id: "hotbar-light-blue", name: "Light Blue", path: "packs/ui/hotbar-selector/light-blue/" },
-            { id: "hotbar-lime", name: "Lime", path: "packs/ui/hotbar-selector/lime/" },
-            { id: "hotbar-magenta", name: "Magenta", path: "packs/ui/hotbar-selector/magenta/" },
-            { id: "hotbar-orange", name: "Orange", path: "packs/ui/hotbar-selector/orange/" },
-            { id: "hotbar-pink", name: "Pink", path: "packs/ui/hotbar-selector/pink/" },
-            { id: "hotbar-purple", name: "Purple", path: "packs/ui/hotbar-selector/purple/" },
-            { id: "hotbar-red", name: "Red", path: "packs/ui/hotbar-selector/red/" },
-            { id: "hotbar-yellow", name: "Yellow", path: "packs/ui/hotbar-selector/yellow/" }
-          ]
-        },
-        "Hearts": {
-          items: [
-            { id: "hearts-black", name: "Black", path: "packs/ui/hearts/black/" },
-            { id: "hearts-blue", name: "Blue", path: "packs/ui/hearts/blue/" },
-            { id: "hearts-brown", name: "Brown", path: "packs/ui/hearts/brown/" },
-            { id: "hearts-cyan", name: "Cyan", path: "packs/ui/hearts/cyan/" },
-            { id: "hearts-grey", name: "Grey", path: "packs/ui/hearts/grey/" },
-            { id: "hearts-green", name: "Green", path: "packs/ui/hearts/green/" },
-            { id: "hearts-light-blue", name: "Light Blue", path: "packs/ui/hearts/light-blue/" },
-            { id: "hearts-lime", name: "Lime", path: "packs/ui/hearts/lime/" },
-            { id: "hearts-magenta", name: "Magenta", path: "packs/ui/hearts/magenta/" },
-            { id: "hearts-orange", name: "Orange", path: "packs/ui/hearts/orange/" },
-            { id: "hearts-pink", name: "Pink", path: "packs/ui/hearts/pink/" },
-            { id: "hearts-purple", name: "Purple", path: "packs/ui/hearts/purple/" },
-            { id: "hearts-yellow", name: "Yellow", path: "packs/ui/hearts/yellow/" }
-          ],
-          subcategories: {
-            "Hardcore Hearts": {
-              items: [
-                { id: "hardcore-hearts-black", name: "Black", path: "packs/ui/hearts/hardcore-hearts/black/" },
-                { id: "hardcore-hearts-blue", name: "Blue", path: "packs/ui/hearts/hardcore-hearts/blue/" },
-                { id: "hardcore-hearts-brown", name: "Brown", path: "packs/ui/hearts/hardcore-hearts/brown/" },
-                { id: "hardcore-hearts-cyan", name: "Cyan", path: "packs/ui/hearts/hardcore-hearts/cyan/" },
-                { id: "hardcore-hearts-grey", name: "Grey", path: "packs/ui/hearts/hardcore-hearts/grey/" },
-                { id: "hardcore-hearts-green", name: "Green", path: "packs/ui/hearts/hardcore-hearts/green/" },
-                { id: "hardcore-hearts-light-blue", name: "Light Blue", path: "packs/ui/hearts/hardcore-hearts/light-blue/" },
-                { id: "hardcore-hearts-lime", name: "Lime", path: "packs/ui/hearts/hardcore-hearts/lime/" },
-                { id: "hardcore-hearts-magenta", name: "Magenta", path: "packs/ui/hearts/hardcore-hearts/magenta/" },
-                { id: "hardcore-hearts-orange", name: "Orange", path: "packs/ui/hearts/hardcore-hearts/orange/" },
-                { id: "hardcore-hearts-pink", name: "Pink", path: "packs/ui/hearts/hardcore-hearts/pink/" },
-                { id: "hardcore-hearts-purple", name: "Purple", path: "packs/ui/hearts/hardcore-hearts/purple/" },
-                { id: "hardcore-hearts-red", name: "Red", path: "packs/ui/hearts/hardcore-hearts/red/" },
-                { id: "hardcore-hearts-yellow", name: "Yellow", path: "packs/ui/hearts/hardcore-hearts/yellow/" }
-              ]
-            }
-          }
-        },
-        "Fonts": {
-          items: [
-            { id: "font-antialias", name: "AntiAliasFont", path: "packs/ui/fonts/antialias/" },
-            { id: "font-blocky", name: "Blocky Font", path: "packs/ui/fonts/blocky/" },
-            { id: "font-doodle", name: "Doodle Font", path: "packs/ui/fonts/doodle/" },
-            { id: "font-small-caps", name: "Small Caps Font", path: "packs/ui/fonts/small-caps/" },
-            { id: "font-smooth", name: "Smooth Font", path: "packs/ui/fonts/smooth/" },
-            { id: "font-square", name: "Square Font", path: "packs/ui/fonts/square/" }
-          ]
-        }
-      }
-    },
-    "Utility": {
-      items: [
-        { id: "age25kelp", name: "Age 25 Kelp", path: "packs/utility/age25kelp/" },
-        { id: "arabic-numerals", name: "Arabic Numerals", path: "packs/utility/arabic-numerals/" },
-        { id: "sticky-piston-back", name: "Sticky Piston Back", path: "packs/utility/sticky-piston-back/" },
-        { id: "bordered-buttons", name: "Bordered Buttons", path: "packs/utility/bordered-buttons/" },
-        { id: "budding-amethyst-borders", name: "Budding Amethyst Borders", path: "packs/utility/budding-amethyst-borders/" },
-        { id: "clean-redstone-dust", name: "Clean Redstone Dust", path: "packs/utility/clean-redstone-dust/" },
-        { id: "better-banner-patterns", name: "Better Banner Patterns", path: "packs/utility/better-banner-patterns/" },
-        { id: "compass-lodestone", name: "Compass Lodestone", path: "packs/utility/compass-lodestone/" },
-        { id: "crumbled-infested-stone", name: "Crumbled Infested Stone Blocks", path: "packs/utility/crumbled-infested-stone/" },
-        { id: "different-stems", name: "Different Stems", path: "packs/utility/different-stems/" },
-        { id: "full-honey-stage", name: "Full Honey Stage", path: "packs/utility/full-honey-stage/" },
-        { id: "hunger-preview", name: "Hunger Preview", path: "packs/utility/hunger-preview/" },
-        { id: "lit-furnace-indicator", name: "Lit Furnace Indicator", path: "packs/utility/lit-furnace-indicator/" },
-        { id: "marked-pressure-plates", name: "Marked Pressure Plates", path: "packs/utility/marked-pressure-plates/" },
-        { id: "mine-progress-bar", name: "Mine Progress Bar", path: "packs/utility/mine-progress-bar/" },
-        { id: "music-disc-redstone", name: "Music Disc Redstone Preview", path: "packs/utility/music-disc-redstone/" },
-        { id: "note-block-pitch", name: "Note Block Pitch Particle", path: "packs/utility/note-block-pitch/" },
-        { id: "open-barrel-indicator", name: "Open Barrel Indicator", path: "packs/utility/open-barrel-indicator/" },
-        { id: "ore-borders", name: "Ore Borders", path: "packs/utility/ore-borders/" },
-        { id: "respawn-anchor-charge", name: "Respawn Anchor Charge", path: "packs/utility/respawn-anchor-charge/" },
-        { id: "sticky-piston-sides", name: "Sticky Piston Sides", path: "packs/utility/sticky-piston-sides/" },
-        { id: "suspicious-block-borders", name: "Suspicious Block Borders", path: "packs/utility/suspicious-block-borders/" },
-        { id: "visible-tripwires", name: "Visible Tripwires", path: "packs/utility/visible-tripwires/" }
-      ],
-      subcategories: {
-        "Growth Indicator": {
-          items: [
-            { id: "growth-amethyst", name: "Fully Aged Amethyst", path: "packs/utility/growth-indicator/amethyst/" },
-            { id: "growth-beetroot", name: "Fully Aged Beetroot", path: "packs/utility/growth-indicator/beetroot/" },
-            { id: "growth-carrots", name: "Fully Aged Carrots", path: "packs/utility/growth-indicator/carrots/" },
-            { id: "growth-cocoa", name: "Fully Aged Cocoa Beans", path: "packs/utility/growth-indicator/cocoa/" },
-            { id: "growth-nether-wart", name: "Fully Aged Nether Wart", path: "packs/utility/growth-indicator/nether-wart/" },
-            { id: "growth-potato", name: "Fully Aged Potato", path: "packs/utility/growth-indicator/potato/" },
-            { id: "growth-sweet-berry", name: "Fully Aged Sweet Berry Bush", path: "packs/utility/growth-indicator/sweet-berry/" },
-            { id: "growth-wheat", name: "Fully Aged Wheat", path: "packs/utility/growth-indicator/wheat/" }
-          ]
-        },
-        "Directional": {
-          items: [
-            { id: "directional-observers", name: "Directional Observers", path: "packs/utility/directional/observers/" },
-            { id: "directional-droppers", name: "Directional Droppers", path: "packs/utility/directional/droppers/" },
-            { id: "directional-dispensers", name: "Directional Dispensers", path: "packs/utility/directional/dispensers/" },
-            { id: "directional-hoppers", name: "Directional Hoppers", path: "packs/utility/directional/hoppers/" },
-            { id: "directional-sculk-sensors", name: "Directional Calibrated Sculk Sensors", path: "packs/utility/directional/sculk-sensors/" }
-          ]
-        }
-      }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunshine Client Extension Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="extensions-data.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('extension_bg.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
     }
-  };
+  </style>
+</head>
+<body>
+  <div id="root"></div>
 
-  // Get subcategory path for compatibility checking
-  const getSubcategoryPath = (extId) => {
-    for (const [category, data] of Object.entries(extensions)) {
-      if (data.subcategories) {
-        for (const [subcat, subdata] of Object.entries(data.subcategories)) {
-          if (subdata.items.some(item => item.id === extId)) {
-            return `${category}/${subcat}`;
-          }
-          if (subdata.subcategories) {
-            for (const [subsubcat, subsubdata] of Object.entries(subdata.subcategories)) {
-              if (subsubdata.items.some(item => item.id === extId)) {
-                return `${category}/${subcat}/${subsubcat}`;
+  <script type="text/babel">
+    const { useState } = React;
+
+    const ExtensionPackBuilder = () => {
+      const [selectedExtensions, setSelectedExtensions] = useState([]);
+      const [expandedCategories, setExpandedCategories] = useState({});
+      const [showPreview, setShowPreview] = useState(true);
+      const [categoryMenus, setCategoryMenus] = useState({});
+
+      const extensions = window.EXTENSIONS_DATA || {};
+
+      const getSubcategoryPath = (extId) => {
+        for (const [category, data] of Object.entries(extensions)) {
+          if (data.subcategories) {
+            for (const [subcat, subdata] of Object.entries(data.subcategories)) {
+              if (subdata.items.some(item => item.id === extId)) {
+                return `${category}/${subcat}`;
+              }
+              if (subdata.subcategories) {
+                for (const [subsubcat, subsubdata] of Object.entries(subdata.subcategories)) {
+                  if (subsubdata.items.some(item => item.id === extId)) {
+                    return `${category}/${subcat}/${subsubcat}`;
+                  }
+                }
               }
             }
           }
         }
-      }
-    }
-    return null;
-  };
+        return null;
+      };
 
-  // Check compatibility
-  const getIncompatibilities = (extId) => {
-    const incompatible = [];
-    const subcatPath = getSubcategoryPath(extId);
-    
-    if (subcatPath) {
-      selectedExtensions.forEach(selectedId => {
-        if (selectedId !== extId && getSubcategoryPath(selectedId) === subcatPath) {
-          incompatible.push(selectedId);
+      const getIncompatibilities = (extId) => {
+        const incompatible = [];
+        const subcatPath = getSubcategoryPath(extId);
+        
+        if (subcatPath) {
+          selectedExtensions.forEach(selectedId => {
+            if (selectedId !== extId && getSubcategoryPath(selectedId) === subcatPath) {
+              incompatible.push(selectedId);
+            }
+          });
         }
-      });
-    }
-    
-    // Special case: Hearts and Hardcore Hearts conflict
-    if (extId.startsWith('hearts-') && !extId.startsWith('hardcore-hearts-')) {
-      const color = extId.replace('hearts-', '');
-      const hardcoreVersion = `hardcore-hearts-${color}`;
-      if (selectedExtensions.includes(hardcoreVersion)) {
-        incompatible.push(hardcoreVersion);
-      }
-    } else if (extId.startsWith('hardcore-hearts-')) {
-      const color = extId.replace('hardcore-hearts-', '');
-      const normalVersion = `hearts-${color}`;
-      if (selectedExtensions.includes(normalVersion)) {
-        incompatible.push(normalVersion);
-      }
-    }
-    
-    return incompatible;
-  };
-
-  const toggleExtension = (extId) => {
-    if (selectedExtensions.includes(extId)) {
-      setSelectedExtensions(selectedExtensions.filter(id => id !== extId));
-    } else {
-      setSelectedExtensions([...selectedExtensions, extId]);
-    }
-  };
-
-  const toggleCategory = (categoryPath) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [categoryPath]: !prev[categoryPath]
-    }));
-  };
-
-  const selectAllInSubcategory = (items) => {
-    const itemIds = items.map(item => item.id);
-    const allSelected = itemIds.every(id => selectedExtensions.includes(id));
-    
-    if (allSelected) {
-      setSelectedExtensions(selectedExtensions.filter(id => !itemIds.includes(id)));
-    } else {
-      const newSelections = [...selectedExtensions];
-      itemIds.forEach(id => {
-        if (!newSelections.includes(id)) {
-          newSelections.push(id);
+        
+        if (extId.startsWith('hearts-') && !extId.startsWith('hardcore-hearts-')) {
+          const color = extId.replace('hearts-', '');
+          const hardcoreVersion = `hardcore-hearts-${color}`;
+          if (selectedExtensions.includes(hardcoreVersion)) {
+            incompatible.push(hardcoreVersion);
+          }
+        } else if (extId.startsWith('hardcore-hearts-')) {
+          const color = extId.replace('hardcore-hearts-', '');
+          const normalVersion = `hearts-${color}`;
+          if (selectedExtensions.includes(normalVersion)) {
+            incompatible.push(normalVersion);
+          }
         }
-      });
-      setSelectedExtensions(newSelections);
-    }
-  };
+        
+        return incompatible;
+      };
 
-  const generateUUID = () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0;
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  };
+      const toggleExtension = (extId) => {
+        if (selectedExtensions.includes(extId)) {
+          setSelectedExtensions(selectedExtensions.filter(id => id !== extId));
+        } else {
+          setSelectedExtensions([...selectedExtensions, extId]);
+        }
+      };
 
-  const getExtensionName = (extId) => {
-    for (const [category, data] of Object.entries(extensions)) {
-      const found = data.items?.find(item => item.id === extId);
-      if (found) return found.name;
-      
-      if (data.subcategories) {
-        for (const [subcat, subdata] of Object.entries(data.subcategories)) {
-          const foundSub = subdata.items.find(item => item.id === extId);
-          if (foundSub) return foundSub.name;
+      const toggleCategory = (categoryPath) => {
+        setExpandedCategories(prev => ({
+          ...prev,
+          [categoryPath]: !prev[categoryPath]
+        }));
+      };
+
+      const toggleCategoryMenu = (categoryPath) => {
+        setCategoryMenus(prev => ({
+          ...prev,
+          [categoryPath]: !prev[categoryPath]
+        }));
+      };
+
+      const selectAllInSubcategory = (items, categoryPath) => {
+        const itemIds = items.map(item => item.id);
+        const allSelected = itemIds.every(id => selectedExtensions.includes(id));
+        
+        if (allSelected) {
+          setSelectedExtensions(selectedExtensions.filter(id => !itemIds.includes(id)));
+        } else {
+          const newSelections = [...selectedExtensions];
+          itemIds.forEach(id => {
+            if (!newSelections.includes(id)) {
+              newSelections.push(id);
+            }
+          });
+          setSelectedExtensions(newSelections);
+        }
+        
+        setCategoryMenus(prev => ({ ...prev, [categoryPath]: false }));
+      };
+
+      const generateUUID = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          const r = Math.random() * 16 | 0;
+          const v = c === 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      };
+
+      const getExtensionName = (extId) => {
+        for (const [category, data] of Object.entries(extensions)) {
+          const found = data.items?.find(item => item.id === extId);
+          if (found) return found.name;
           
-          if (subdata.subcategories) {
-            for (const [subsubcat, subsubdata] of Object.entries(subdata.subcategories)) {
-              const foundSubSub = subsubdata.items.find(item => item.id === extId);
-              if (foundSubSub) return foundSubSub.name;
+          if (data.subcategories) {
+            for (const [subcat, subdata] of Object.entries(data.subcategories)) {
+              const foundSub = subdata.items.find(item => item.id === extId);
+              if (foundSub) return foundSub.name;
+              
+              if (subdata.subcategories) {
+                for (const [subsubcat, subsubdata] of Object.entries(subdata.subcategories)) {
+                  const foundSubSub = subsubdata.items.find(item => item.id === extId);
+                  if (foundSubSub) return foundSubSub.name;
+                }
+              }
             }
           }
         }
-      }
-    }
-    return extId;
-  };
+        return extId;
+      };
 
-  const downloadPack = () => {
-    const description = selectedExtensions.map(id => getExtensionName(id)).join(', ');
-    
-    const manifest = {
-      format_version: 2,
-      header: {
-        name: "Custom Sunshine Client Extension",
-        description: description || "No extensions selected",
-        uuid: generateUUID(),
-        version: [1, 2, 0]
-      },
-      modules: [
-        {
-          description: description || "No extensions selected",
-          type: "resources",
-          uuid: generateUUID(),
-          version: [1, 2, 0]
+      const downloadPack = () => {
+        let description;
+        const extensionNames = selectedExtensions.map(id => getExtensionName(id));
+        const descriptionText = extensionNames.join(', ');
+        
+        // Check if description is too long (Minecraft has limits, roughly 256 chars is safe)
+        if (descriptionText.length > 200 || extensionNames.length > 10) {
+          description = "§gYou're own Sunshine Client Extension!";
+        } else {
+          description = descriptionText || "§gYou're own Sunshine Client Extension!";
         }
-      ],
-      metadata: {
-        authors: ["Sunshine Client"],
-        url: "https://sunshine-client.github.io"
-      }
-    };
-
-    // Create download
-    const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'manifest.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const ExtensionCard = ({ ext, categoryPath }) => {
-    const isSelected = selectedExtensions.includes(ext.id);
-    const incompatibilities = getIncompatibilities(ext.id);
-    const hasWarning = incompatibilities.length > 0;
-
-    return (
-      <div 
-        className={`relative bg-black bg-opacity-60 rounded-lg p-4 cursor-pointer transition-all hover:bg-opacity-70 border-2 ${
-          isSelected ? 'border-green-500' : 'border-transparent'
-        }`}
-        onClick={() => toggleExtension(ext.id)}
-      >
-        {hasWarning && isSelected && (
-          <div className="absolute top-2 right-2 z-10">
-            <AlertTriangle className="w-5 h-5 text-yellow-500" />
-          </div>
-        )}
         
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-16 h-16 bg-gray-700 rounded-lg flex items-center justify-center">
-            <img 
-              src={`${ext.path}pack_icon.png`} 
-              alt={ext.name}
-              className="w-full h-full object-cover rounded-lg"
-              onError={(e) => {
-                e.target.style.display = 'none';
-                e.target.nextElementSibling.style.display = 'block';
-              }}
-            />
-            <div style={{display: 'none'}} className="text-gray-400 text-xs text-center">Icon</div>
-          </div>
-          
-          <div className="text-center">
-            <div className="text-white text-sm font-medium">{ext.name}</div>
-          </div>
-          
-          <button
-            className={`w-full py-2 rounded font-medium transition-colors ${
-              isSelected 
-                ? 'bg-green-500 text-black hover:bg-green-400' 
-                : 'bg-red-500 text-white hover:bg-red-400'
+        const manifest = {
+          format_version: 2,
+          header: {
+            name: "Custom Sunshine Client Extension",
+            description: description,
+            uuid: generateUUID(),
+            version: [1, 2, 0]
+          },
+          modules: [
+            {
+              description: description,
+              type: "resources",
+              uuid: generateUUID(),
+              version: [1, 2, 0]
+            }
+          ],
+          metadata: {
+            authors: ["Sunshine Client"],
+            url: "https://sunshine-client.github.io"
+          }
+        };
+
+        const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'manifest.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+
+      const ExtensionCard = ({ ext, categoryPath }) => {
+        const isSelected = selectedExtensions.includes(ext.id);
+        const incompatibilities = getIncompatibilities(ext.id);
+        const hasWarning = incompatibilities.length > 0;
+
+        return (
+          <div 
+            className={`relative bg-black bg-opacity-60 rounded-lg p-4 cursor-pointer transition-all hover:bg-opacity-70 border-2 ${
+              isSelected ? 'border-green-500' : 'border-transparent'
             }`}
+            onClick={() => toggleExtension(ext.id)}
           >
-            {isSelected ? 'ENABLED' : 'DISABLED'}
-          </button>
-        </div>
-        
-        {hasWarning && isSelected && (
-          <div className="mt-3 text-xs text-yellow-400 text-center">
-            Incompatible with: {incompatibilities.map(id => getExtensionName(id)).join(', ')}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const SubcategorySection = ({ title, data, parentPath }) => {
-    const categoryPath = `${parentPath}/${title}`;
-    const isExpanded = expandedCategories[categoryPath];
-    const [showMenu, setShowMenu] = useState(false);
-
-    return (
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-3 px-2">
-          <button
-            onClick={() => toggleCategory(categoryPath)}
-            className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
-          >
-            {isExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-            <span className="font-medium">{title}</span>
-          </button>
-          
-          <div className="relative">
-            <button
-              onClick={() => setShowMenu(!showMenu)}
-              className="p-1 hover:bg-gray-700 rounded transition-colors"
-            >
-              <MoreVertical className="w-5 h-5 text-gray-400" />
-            </button>
+            {hasWarning && isSelected && (
+              <div className="absolute top-2 right-2 z-10">
+                <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+            )}
             
-            {showMenu && (
-              <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
-                <button
-                  onClick={() => {
-                    selectAllInSubcategory(data.items);
-                    setShowMenu(false);
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
+                <img 
+                  src={`${ext.path}pack_icon.png`} 
+                  alt={ext.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
                   }}
-                  className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors"
-                >
-                  Select All/None
-                </button>
+                />
+                <div style={{display: 'none'}} className="text-gray-400 text-xs text-center w-full h-full flex items-center justify-center">Icon</div>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-white text-sm font-medium">{ext.name}</div>
+              </div>
+              
+              <button
+                className={`w-full py-2 rounded font-medium transition-colors ${
+                  isSelected 
+                    ? 'bg-green-500 text-black hover:bg-green-400' 
+                    : 'bg-red-500 text-white hover:bg-red-400'
+                }`}
+              >
+                {isSelected ? 'ENABLED' : 'DISABLED'}
+              </button>
+            </div>
+            
+            {hasWarning && isSelected && (
+              <div className="mt-3 text-xs text-yellow-400 text-center">
+                Incompatible with: {incompatibilities.map(id => getExtensionName(id)).join(', ')}
               </div>
             )}
           </div>
-        </div>
-        
-        {isExpanded && (
-          <div className="ml-4">
-            {data.subcategories && Object.entries(data.subcategories).map(([subTitle, subData]) => (
-              <SubcategorySection 
-                key={subTitle}
-                title={subTitle} 
-                data={subData} 
-                parentPath={categoryPath}
-              />
-            ))}
-            
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {data.items.map(ext => (
-                <ExtensionCard key={ext.id} ext={ext} categoryPath={categoryPath} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
+        );
+      };
 
-  const CategorySection = ({ title, data }) => {
-    const isExpanded = expandedCategories[title];
-    const [showMenu, setShowMenu] = useState(false);
+      const SubcategorySection = ({ title, data, parentPath }) => {
+        const categoryPath = `${parentPath}/${title}`;
+        const isExpanded = expandedCategories[categoryPath];
+        const showMenu = categoryMenus[categoryPath];
 
-    return (
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-4 px-2">
-          <button
-            onClick={() => toggleCategory(title)}
-            className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
-          >
-            {isExpanded ? <ChevronDown className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
-            <span className="text-xl font-bold">{title}</span>
-          </button>
-          
-          {data.items && (
-            <div className="relative">
+        return (
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-3 px-2">
               <button
-                onClick={() => setShowMenu(!showMenu)}
-                className="p-1 hover:bg-gray-700 rounded transition-colors"
+                onClick={() => toggleCategory(categoryPath)}
+                className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
               >
-                <MoreVertical className="w-5 h-5 text-gray-400" />
+                <svg className={`w-5 h-5 transition-transform ${isExpanded ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+                <span className="font-medium">{title}</span>
               </button>
               
-              {showMenu && (
-                <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
+              <div className="relative">
+                <button
+                  onClick={() => toggleCategoryMenu(categoryPath)}
+                  className="p-1 hover:bg-gray-700 rounded transition-colors"
+                >
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                  </svg>
+                </button>
+                
+                {showMenu && (
+                  <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
+                    <button
+                      onClick={() => selectAllInSubcategory(data.items, categoryPath)}
+                      className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors rounded"
+                    >
+                      Select All/None
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {isExpanded && (
+              <div className="ml-4">
+                {data.subcategories && Object.entries(data.subcategories).map(([subTitle, subData]) => (
+                  <SubcategorySection 
+                    key={subTitle}
+                    title={subTitle} 
+                    data={subData} 
+                    parentPath={categoryPath}
+                  />
+                ))}
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  {data.items.map(ext => (
+                    <ExtensionCard key={ext.id} ext={ext} categoryPath={categoryPath} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      };
+
+      const CategorySection = ({ title, data }) => {
+        const isExpanded = expandedCategories[title];
+        const showMenu = categoryMenus[title];
+
+        return (
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-4 px-2">
+              <button
+                onClick={() => toggleCategory(title)}
+                className="flex items-center gap-2 text-white hover:text-green-400 transition-colors"
+              >
+                <svg className={`w-6 h-6 transition-transform ${isExpanded ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+                <span className="text-xl font-bold">{title}</span>
+              </button>
+              
+              {data.items && (
+                <div className="relative">
                   <button
-                    onClick={() => {
-                      selectAllInSubcategory(data.items);
-                      setShowMenu(false);
-                    }}
-                    className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors"
+                    onClick={() => toggleCategoryMenu(title)}
+                    className="p-1 hover:bg-gray-700 rounded transition-colors"
                   >
-                    Select All/None
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                    </svg>
                   </button>
+                  
+                  {showMenu && (
+                    <div className="absolute right-0 mt-1 bg-gray-800 rounded shadow-lg z-20 min-w-[150px]">
+                      <button
+                        onClick={() => selectAllInSubcategory(data.items, title)}
+                        className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors rounded"
+                      >
+                        Select All/None
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
-        </div>
-        
-        {isExpanded && (
-          <div className="ml-4">
-            {data.items && (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">
-                {data.items.map(ext => (
-                  <ExtensionCard key={ext.id} ext={ext} categoryPath={title} />
+            
+            {isExpanded && (
+              <div className="ml-4">
+                {data.items && (
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">
+                    {data.items.map(ext => (
+                      <ExtensionCard key={ext.id} ext={ext} categoryPath={title} />
+                    ))}
+                  </div>
+                )}
+                
+                {data.subcategories && Object.entries(data.subcategories).map(([subTitle, subData]) => (
+                  <SubcategorySection 
+                    key={subTitle}
+                    title={subTitle} 
+                    data={subData} 
+                    parentPath={title}
+                  />
                 ))}
               </div>
             )}
-            
-            {data.subcategories && Object.entries(data.subcategories).map(([subTitle, subData]) => (
-              <SubcategorySection 
-                key={subTitle}
-                title={subTitle} 
-                data={subData} 
-                parentPath={title}
-              />
-            ))}
           </div>
-        )}
-      </div>
-    );
-  };
+        );
+      };
+
+      return (
+        <div className="min-h-screen">
+          <div className="bg-black bg-opacity-80 border-b border-gray-700 px-6 py-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                  <span className="text-black font-bold text-xl">S</span>
+                </div>
+                <h1 className="text-2xl font-bold text-white">Sunshine Client Extension Builder</h1>
+              </div>
+              
+              <button
+                onClick={downloadPack}
+                disabled={selectedExtensions.length === 0}
+                className={`flex items-center gap-2 px-6 py-2 rounded font-medium transition-colors ${
+                  selectedExtensions.length > 0
+                    ? 'bg-green-500 text-black hover:bg-green-400'
+                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download Pack
+              </button>
+            </div>
+          </div>
+
+          <div className="flex">
+            <div className={`flex-1 p-6 transition-all ${showPreview ? 'mr-80' : ''}`}>
+              <div className="max-w-7xl mx-auto">
+                {Object.entries(extensions).map(([category, data]) => (
+                  <CategorySection key={category} title={category} data={data} />
+                ))}
+              </div>
+            </div>
+
+            {showPreview && (
+              <div className="fixed right-0 top-0 h-full w-80 bg-black bg-opacity-90 border-l border-gray-700 p-6 overflow-y-auto">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-bold text-white">Selected Extensions</h2>
+                  <button
+                    onClick={() => setShowPreview(false)}
+                    className="p-1 hover:bg-gray-700 rounded transition-colors"
+                  >
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                
+                {selectedExtensions.length === 0 ? (
+                  <p className="text-gray-400 text-sm">No extensions selected</p>
+                ) : (
+                  <div className="space-y-2">
+                    {selectedExtensions.map(extId => {
+                      const incompatibilities = getIncompatibilities(extId);
+                      return (
+                        <div 
+                          key={extId}
+                          className={`bg-gray-800 rounded p-3 ${
+                            incompatibilities.length > 0 ? 'border-l-4 border-yellow-500' : ''
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <span className="text-white text-sm flex-1">{getExtensionName(extId)}</span>
+                            {incompatibilities.length > 0 && (
+                              <svg className="w-4 h-4 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                              </svg>
+                            )}
+                          </div>
+                          {incompatibilities.length > 0 && (
+                            <div className="mt-2 text-xs text-yellow-400">
+                              Conflicts with selected items
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {!showPreview && (
+              <button
+                onClick={() => setShowPreview(true)}
+                className="fixed right-4 top-20 bg-green-500 text-black px-4 py-2 rounded-lg font-medium hover:bg-green-400 transition-colors shadow-lg"
+              >
+                Show Preview ({selectedExtensions.length})
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<ExtensionPackBuilder />, document.getElementById('root'));
+  </script>
+</body>
+</html>

@@ -2,9 +2,9 @@
 window.EXTENSIONS_DATA = {
   "3D": {
     items: [
-      { id: "3d-mace", name: "3D Mace", path: "packs/3d/3d-mace/" },
-      { id: "3d-fungi", name: "3D Fungi", path: "packs/3d/3d-fungi/" },
-      { id: "3d-sun-moon", name: "3D Sun and Moon", path: "packs/3d/3d-sun-moon/" }
+      { id: "3d-mace", name: "3D Mace", path: "packs/3d/3DMace/" },
+      { id: "3d-fungi", name: "3D Fungi", path: "packs/3d/3DFungi/" },
+      { id: "3d-sun-moon", name: "3D Sun and Moon", path: "packs/3d/3DSunandMoon/" }
     ]
   },
   "UI": {

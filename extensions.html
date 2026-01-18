@@ -14,7 +14,7 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background-image: url('extensions_bg.png');
+      background-image: url('extensions.png');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -59,26 +59,27 @@
         const incompatible = [];
         const subcatPath = getSubcategoryPath(extId);
         
+        // Check same subcategory conflicts (except for Utility's Growth Indicator and Directional)
         if (subcatPath) {
+          const isGrowthIndicator = subcatPath === 'Utility/Growth Indicator';
+          const isDirectional = subcatPath === 'Utility/Directional';
+          
+          if (!isGrowthIndicator && !isDirectional) {
+            selectedExtensions.forEach(selectedId => {
+              if (selectedId !== extId && getSubcategoryPath(selectedId) === subcatPath) {
+                incompatible.push(selectedId);
+              }
+            });
+          }
+        }
+        
+        // Hearts and Hardcore Hearts ALL conflict with each other
+        if (extId.startsWith('hearts-') || extId.startsWith('hardcore-hearts-')) {
           selectedExtensions.forEach(selectedId => {
-            if (selectedId !== extId && getSubcategoryPath(selectedId) === subcatPath) {
+            if (selectedId !== extId && (selectedId.startsWith('hearts-') || selectedId.startsWith('hardcore-hearts-'))) {
               incompatible.push(selectedId);
             }
           });
-        }
-        
-        if (extId.startsWith('hearts-') && !extId.startsWith('hardcore-hearts-')) {
-          const color = extId.replace('hearts-', '');
-          const hardcoreVersion = `hardcore-hearts-${color}`;
-          if (selectedExtensions.includes(hardcoreVersion)) {
-            incompatible.push(hardcoreVersion);
-          }
-        } else if (extId.startsWith('hardcore-hearts-')) {
-          const color = extId.replace('hardcore-hearts-', '');
-          const normalVersion = `hearts-${color}`;
-          if (selectedExtensions.includes(normalVersion)) {
-            incompatible.push(normalVersion);
-          }
         }
         
         return incompatible;

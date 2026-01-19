@@ -97,32 +97,9 @@
             opacity: 0.7;
         }
 
-        /* Theme toggle and Hamburger menu icon */
-        .nav-icons {
-            display: none;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .theme-toggle svg {
-            width: 30px;
-            height: 30px;
-            fill: #ffffff;
-        }
-
+        /* Hamburger menu icon */
         .menu-icon {
-            display: flex;
+            display: none;
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
@@ -134,6 +111,56 @@
             height: 3px;
             background-color: #ffffff;
             border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hamburger animation when open */
+        .menu-icon.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .menu-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 9;
+            display: none;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         /* Center content */
@@ -146,32 +173,24 @@
             position: relative;
             z-index: 1;
             padding: 40px 20px;
-            margin-top: -60px; /* Move content up to account for logo transparency */
+            margin-top: -60px;
         }
 
-        .hero-logo-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+        .hero-logo {
+            width: 300px;
+            height: 300px;
+            display: block;
             opacity: 0;
             transform: translateY(70px);
             animation: logoFadeUp 1.5s ease-out forwards;
             animation-delay: 0.5s;
         }
 
-        .hero-logo {
-            width: 200px;
-            height: 200px;
-            display: block;
-        }
-
         .hero-text {
             margin-top: 30px;
             font-size: 56px;
             font-weight: 700;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
             text-align: center;
             letter-spacing: 2px;
             opacity: 0;
@@ -183,7 +202,7 @@
             margin-top: 15px;
             font-size: 20px;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.8); /* White with transparency */
+            color: rgba(255, 255, 255, 0.8);
             text-align: center;
             opacity: 0;
             animation: textFadeIn 1s ease-out forwards;
@@ -211,6 +230,11 @@
             justify-content: center;
             gap: 10px;
             min-width: 180px;
+        }
+
+        .btn img {
+            width: 24px;
+            height: 24px;
         }
 
         .btn-primary {
@@ -272,8 +296,12 @@
                 display: none;
             }
 
-            .nav-icons {
+            .menu-icon {
                 display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
             }
 
             .hero {
@@ -281,13 +309,9 @@
                 padding: 20px;
             }
 
-            .hero-logo-container {
-                padding: 30px;
-            }
-
             .hero-logo {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
             }
 
             .hero-text {
@@ -339,33 +363,47 @@
             <a href="webUI/index.html">Extensions</a>
             <a href="download.html">Download</a>
         </div>
-        <div class="nav-icons">
-            <button class="theme-toggle" aria-label="Toggle theme">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
-                </svg>
-            </button>
-            <div class="menu-icon">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="webUI/index.html">Extensions</a>
+        <a href="download.html">Download</a>
+    </div>
+
     <div class="hero">
-        <div class="hero-logo-container">
-            <img src="logo.png" alt="Sunshine Client Logo" class="hero-logo">
-        </div>
+        <img src="logo.png" alt="Sunshine Client Logo" class="hero-logo">
         <div class="hero-text">Sunshine Client</div>
         <div class="hero-subtitle">A client for all modern versions of Minecraft!</div>
         <div class="hero-buttons">
             <a href="download.html" class="btn btn-primary">
-                <span>⬇</span> DOWNLOAD
+                <img src="download_icon.png" alt="Download"> DOWNLOAD
             </a>
             <a href="webUI/index.html" class="btn btn-secondary">
-                <span>🛒</span> STORE
+                <img src="extensions_icon.png" alt="Extensions"> EXTENSIONS
             </a>
         </div>
     </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const menuIcon = document.querySelector('.menu-icon');
+            menu.classList.toggle('active');
+            menuIcon.classList.toggle('active');
+        }
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+    </script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <style>
         * {
@@ -60,6 +61,11 @@
             align-items: center;
         }
 
+        .nav-left a {
+            display: flex;
+            align-items: center;
+        }
+
         .nav-left img {
             height: 50px;
             width: auto;
@@ -91,12 +97,36 @@
             opacity: 0.7;
         }
 
-        /* Hamburger menu icon */
-        .menu-icon {
+        /* Theme toggle and Hamburger menu icon */
+        .nav-icons {
             display: none;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle svg {
+            width: 30px;
+            height: 30px;
+            fill: #ffffff;
+        }
+
+        .menu-icon {
+            display: flex;
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
+            padding: 5px;
         }
 
         .menu-icon span {
@@ -178,32 +208,35 @@
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
+            min-width: 180px;
         }
 
         .btn-primary {
-            background-color: #2d7a7a;
+            background-color: #4fa3a3;
             color: #ffffff;
-            border: 2px solid #2d7a7a;
+            border: 2px solid #4fa3a3;
         }
 
         .btn-primary:hover {
-            background-color: #3a9999;
-            border-color: #3a9999;
+            background-color: #5dbdbd;
+            border-color: #5dbdbd;
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(45, 122, 122, 0.4);
+            box-shadow: 0 5px 20px rgba(79, 163, 163, 0.4);
         }
 
         .btn-secondary {
-            background-color: transparent;
+            background-color: #e07a3d;
             color: #ffffff;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #e07a3d;
         }
 
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
+            background-color: #f08a4d;
+            border-color: #f08a4d;
             transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(224, 122, 61, 0.4);
         }
 
         /* Keep original animations */
@@ -224,6 +257,11 @@
         @media (max-width: 768px) {
             .top-bar {
                 padding: 0 20px;
+                height: 70px;
+            }
+
+            .nav-left img {
+                height: 40px;
             }
 
             .logo-text {
@@ -234,27 +272,57 @@
                 display: none;
             }
 
-            .menu-icon {
+            .nav-icons {
                 display: flex;
             }
 
+            .hero {
+                margin-top: -40px;
+                padding: 20px;
+            }
+
+            .hero-logo-container {
+                padding: 30px;
+            }
+
+            .hero-logo {
+                width: 150px;
+                height: 150px;
+            }
+
             .hero-text {
-                font-size: 36px;
+                font-size: 32px;
+                margin-top: 20px;
             }
 
             .hero-subtitle {
                 font-size: 16px;
+                margin-top: 10px;
+                padding: 0 10px;
             }
 
             .hero-buttons {
                 flex-direction: column;
                 width: 100%;
-                max-width: 300px;
+                max-width: 350px;
+                gap: 15px;
+                margin-top: 30px;
             }
 
             .btn {
                 width: 100%;
-                justify-content: center;
+                padding: 18px 40px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text {
+                font-size: 28px;
+            }
+
+            .hero-subtitle {
+                font-size: 14px;
             }
         }
     </style>
@@ -271,10 +339,17 @@
             <a href="webUI/index.html">Extensions</a>
             <a href="download.html">Download</a>
         </div>
-        <div class="menu-icon">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="nav-icons">
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+            </button>
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </div>
     <div class="hero">
@@ -288,7 +363,7 @@
                 <span>⬇</span> DOWNLOAD
             </a>
             <a href="webUI/index.html" class="btn btn-secondary">
-                <span>🔧</span> EXTENSIONS
+                <span>🛒</span> STORE
             </a>
         </div>
     </div>

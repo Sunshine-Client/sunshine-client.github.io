@@ -5,46 +5,105 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-    margin: 0;
-    font-family: "Montserrat", Arial, Helvetica, sans-serif;
-    background-color: #ffffff;
+            font-family: "Montserrat", Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #1a4d4d 0%, #0d2626 50%, #000000 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Starry background effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(1px 1px at 33% 80%, white, transparent),
+                radial-gradient(1px 1px at 15% 90%, white, transparent);
+            background-size: 200% 200%;
+            background-position: 0% 0%;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Top navigation bar */
         .top-bar {
-            background-color: #000;
-            height: 167px;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            height: 80px;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between;
             padding: 0 40px;
-            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
         }
 
-        .nav-items {
+        .nav-left {
             display: flex;
             align-items: center;
-            gap: 30px;
         }
 
-        .nav-items a {
+        .nav-left img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-left .logo-text {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            margin-left: 15px;
+            letter-spacing: 1px;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-right a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 32px;
+            font-size: 18px;
             font-weight: 500;
-            display: flex;
-            align-items: center;
+            transition: opacity 0.3s ease;
         }
 
-        .nav-items a:hover {
-            opacity: 0.85;
+        .nav-right a:hover {
+            opacity: 0.7;
         }
 
-        .nav-items img {
-            height: 200px;
-            width: auto;
-            display: block;
+        /* Hamburger menu icon */
+        .menu-icon {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            width: 30px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
         }
 
         /* Center content */
@@ -52,26 +111,102 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 230px;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            position: relative;
+            z-index: 1;
+            padding: 40px 20px;
+            margin-top: -60px; /* Move content up to account for logo transparency */
         }
 
-        .hero-logo {
-            width: 450px;
+        .hero-logo-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             opacity: 0;
             transform: translateY(70px);
             animation: logoFadeUp 1.5s ease-out forwards;
-            animation-delay: 1s;
+            animation-delay: 0.5s;
+        }
+
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            display: block;
         }
 
         .hero-text {
-            margin-top: 16px;
-            font-size: 64px;
-            font-weight: 600;
+            margin-top: 30px;
+            font-size: 56px;
+            font-weight: 700;
+            color: #ffffff; /* Changed to white */
+            text-align: center;
+            letter-spacing: 2px;
             opacity: 0;
-            animation: textFadeIn 0.5s ease-out forwards;
+            animation: textFadeIn 1s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        .hero-subtitle {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8); /* White with transparency */
+            text-align: center;
+            opacity: 0;
+            animation: textFadeIn 1s ease-out forwards;
+            animation-delay: 2s;
+        }
+
+        .hero-buttons {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: textFadeIn 1s ease-out forwards;
             animation-delay: 2.5s;
         }
 
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background-color: #2d7a7a;
+            color: #ffffff;
+            border: 2px solid #2d7a7a;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a9999;
+            border-color: #3a9999;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(45, 122, 122, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Keep original animations */
         @keyframes logoFadeUp {
             to {
                 opacity: 1;
@@ -85,28 +220,77 @@
             }
         }
 
-        body {
-    background-image: url("home_bg.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 0 20px;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .nav-right {
+                display: none;
+            }
+
+            .menu-icon {
+                display: flex;
+            }
+
+            .hero-text {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="top-bar">
-        <div class="nav-items">
+        <div class="nav-left">
             <a href="index.html">
                 <img src="logo.png" alt="Home">
             </a>
+            <span class="logo-text">Sunshine Client</span>
+        </div>
+        <div class="nav-right">
             <a href="webUI/index.html">Extensions</a>
             <a href="download.html">Download</a>
         </div>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
     <div class="hero">
-        <img src="logo.png" alt="Large Logo" class="hero-logo">
+        <div class="hero-logo-container">
+            <img src="logo.png" alt="Sunshine Client Logo" class="hero-logo">
+        </div>
         <div class="hero-text">Sunshine Client</div>
+        <div class="hero-subtitle">A client for all modern versions of Minecraft!</div>
+        <div class="hero-buttons">
+            <a href="download.html" class="btn btn-primary">
+                <span>⬇</span> DOWNLOAD
+            </a>
+            <a href="webUI/index.html" class="btn btn-secondary">
+                <span>🔧</span> EXTENSIONS
+            </a>
+        </div>
     </div>
 </body>
 </html>

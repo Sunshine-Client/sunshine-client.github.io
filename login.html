@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Login</h2>
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button id="login">Login</button>
+<button id="signup">Sign Up</button>
+
+<script type="module">
+import { auth } from "./js/firebase.js";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+login.onclick = () =>
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => location.href = "themes.html");
+
+signup.onclick = () =>
+  createUserWithEmailAndPassword(auth, email.value, password.value);
+</script>
+
+</body>
+</html>

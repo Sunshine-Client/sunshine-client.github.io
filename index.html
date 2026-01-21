@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+
     <style>
         * {
             margin: 0;
@@ -16,107 +17,83 @@
             font-family: "Montserrat", Arial, Helvetica, sans-serif;
             background: linear-gradient(180deg, #1a4d4d 0%, #0d2626 50%, #000000 100%);
             min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
         }
 
-        /* Starry background effect */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
+            inset: 0;
+            background-image:
                 radial-gradient(2px 2px at 20% 30%, white, transparent),
                 radial-gradient(2px 2px at 60% 70%, white, transparent),
                 radial-gradient(1px 1px at 50% 50%, white, transparent),
                 radial-gradient(1px 1px at 80% 10%, white, transparent),
-                radial-gradient(2px 2px at 90% 60%, white, transparent),
-                radial-gradient(1px 1px at 33% 80%, white, transparent),
-                radial-gradient(1px 1px at 15% 90%, white, transparent);
-            background-size: 200% 200%;
-            background-position: 0% 0%;
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
             opacity: 0.4;
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Top navigation bar */
+        /* ---------- TOP BAR (DESKTOP) ---------- */
         .top-bar {
-            background-color: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
             height: 100px;
+            padding: 0 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
-            position: relative;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
             z-index: 10;
+            position: relative;
         }
 
         .nav-left {
             display: flex;
             align-items: center;
-        }
-
-        .nav-left a {
-            display: flex;
-            align-items: center;
+            gap: 15px;
         }
 
         .nav-left img {
             height: 120px;
-            width: auto;
         }
 
-        .nav-left .logo-text {
-            color: #ffffff;
+        .logo-text {
+            color: white;
             font-size: 24px;
             font-weight: 700;
-            margin-left: 15px;
-            letter-spacing: 1px;
         }
 
         .nav-right {
             display: flex;
             gap: 40px;
-            align-items: center;
         }
 
         .nav-right a {
-            color: #ffffff;
+            color: white;
             text-decoration: none;
             font-size: 18px;
             font-weight: 500;
-            transition: opacity 0.3s ease;
         }
 
-        .nav-right a:hover {
-            opacity: 0.7;
-        }
-
-        /* Hamburger menu icon */
+        /* ---------- HAMBURGER ---------- */
         .menu-icon {
             display: none;
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
-            padding: 5px;
         }
 
         .menu-icon span {
             width: 30px;
             height: 3px;
-            background-color: #ffffff;
+            background: white;
             border-radius: 2px;
-            transition: all 0.3s ease;
+            transition: 0.3s;
         }
 
-        /* Hamburger animation when open */
         .menu-icon.active span:nth-child(1) {
-            transform: rotate(45deg) translate(8px, 8px);
+            transform: rotate(45deg) translate(7px, 7px);
         }
 
         .menu-icon.active span:nth-child(2) {
@@ -127,20 +104,18 @@
             transform: rotate(-45deg) translate(7px, -7px);
         }
 
-        /* Mobile menu */
+        /* ---------- MOBILE MENU ---------- */
         .mobile-menu {
             position: fixed;
-            top: 90px;
+            top: 100px;
             left: 0;
             right: 0;
-            background-color: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px;
+            background: rgba(10,10,10,0.96);
+            backdrop-filter: blur(12px);
             transform: translateY(-100%);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: 0.3s ease;
             z-index: 9;
-            display: none;
         }
 
         .mobile-menu.active {
@@ -148,150 +123,60 @@
             opacity: 1;
         }
 
-        .mobile-menu a {
-            display: block;
-            color: #ffffff;
+        .menu-item {
+            padding: 24px 30px;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
             text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .menu-login {
+            margin: 25px 20px;
+            padding: 18px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 14px;
             font-size: 20px;
-            font-weight: 500;
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: background-color 0.3s ease;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
         }
 
-        .mobile-menu a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Center content */
+        /* ---------- HERO ---------- */
         .hero {
+            min-height: calc(100vh - 100px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: calc(100vh - 100px);
-            position: relative;
+            text-align: center;
+            color: white;
             z-index: 1;
-            padding: 40px 20px;
-            margin-top: -80px;
+            position: relative;
         }
 
-        .hero-logo {
+        .hero img {
             width: 400px;
-            height: 400px;
-            display: block;
-            opacity: 0;
-            transform: translateY(70px);
-            animation: logoFadeUp 1.5s ease-out forwards;
-            animation-delay: 0.5s;
         }
 
-        .hero-text {
-            margin-top: 10px;
+        .hero h1 {
             font-size: 56px;
-            font-weight: 700;
-            color: #ffffff;
-            text-align: center;
-            letter-spacing: 2px;
-            opacity: 0;
-            animation: textFadeIn 1s ease-out forwards;
-            animation-delay: 1.5s;
+            margin-top: 10px;
         }
 
-        .hero-subtitle {
-            margin-top: 15px;
-            font-size: 20px;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            opacity: 0;
-            animation: textFadeIn 1s ease-out forwards;
-            animation-delay: 2s;
+        .hero p {
+            margin-top: 10px;
+            opacity: 0.8;
         }
 
-        .hero-buttons {
-            margin-top: 40px;
-            display: flex;
-            gap: 20px;
-            opacity: 0;
-            animation: textFadeIn 1s ease-out forwards;
-            animation-delay: 2.5s;
-        }
-
-        .btn {
-            padding: 15px 40px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            min-width: 180px;
-        }
-
-        .btn img {
-            width: 24px;
-            height: 24px;
-        }
-
-        .btn-primary {
-            background-color: #4fa3a3;
-            color: #ffffff;
-            border: 2px solid #4fa3a3;
-        }
-
-        .btn-primary:hover {
-            background-color: #5dbdbd;
-            border-color: #5dbdbd;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(79, 163, 163, 0.4);
-        }
-
-        .btn-secondary {
-            background-color: #e07a3d;
-            color: #ffffff;
-            border: 2px solid #e07a3d;
-        }
-
-        .btn-secondary:hover {
-            background-color: #f08a4d;
-            border-color: #f08a4d;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(224, 122, 61, 0.4);
-        }
-
-        /* Keep original animations */
-        @keyframes logoFadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes textFadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Responsive design */
+        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 768px) {
-            .top-bar {
-                padding: 0 20px;
-                height: 90px;
-            }
-
-            .nav-left img {
-                height: 100px;
-            }
-
-            .logo-text {
-                display: none;
-            }
-
             .nav-right {
                 display: none;
             }
@@ -300,112 +185,65 @@
                 display: flex;
             }
 
+            .logo-text {
+                display: none;
+            }
+
             .mobile-menu {
                 display: block;
             }
 
-            .hero {
-                margin-top: -50px;
-                padding: 20px;
-                min-height: calc(100vh - 90px);
-            }
-
-            .hero-logo {
+            .hero img {
                 width: 280px;
-                height: 280px;
-                margin-top: 40px;
             }
 
-            .hero-text {
+            .hero h1 {
                 font-size: 32px;
-                margin-top: -10px;
-            }
-
-            .hero-subtitle {
-                font-size: 16px;
-                margin-top: 10px;
-                padding: 0 10px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                width: 100%;
-                max-width: 350px;
-                gap: 15px;
-                margin-top: 30px;
-            }
-
-            .btn {
-                width: 100%;
-                padding: 18px 40px;
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-text {
-                font-size: 28px;
-            }
-
-            .hero-subtitle {
-                font-size: 14px;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="top-bar">
-        <div class="nav-left">
-            <a href="index.html">
-                <img src="logo.png" alt="Home">
-            </a>
-            <span class="logo-text">Sunshine Client</span>
-        </div>
-        <div class="nav-right">
-            <a href="extensions.html">Extensions</a>
-            <a href="download.html">Download</a>
-        </div>
-        <div class="menu-icon" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+
+<div class="top-bar">
+    <div class="nav-left">
+        <a href="index.html"><img src="logo.png" alt="Home"></a>
+        <span class="logo-text">Sunshine Client</span>
     </div>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
+    <div class="nav-right">
         <a href="extensions.html">Extensions</a>
         <a href="download.html">Download</a>
     </div>
 
-    <div class="hero">
-        <img src="logo.png" alt="Sunshine Client Logo" class="hero-logo">
-        <div class="hero-text">Sunshine Client</div>
-        <div class="hero-subtitle">A client for all modern versions of Minecraft!</div>
-        <div class="hero-buttons">
-            <a href="download.html" class="btn btn-primary">
-                <img src="download_icon.png" alt="Download"> DOWNLOAD
-            </a>
-            <a href="extensions.html" class="btn btn-secondary">
-                <img src="extensions_icon.png" alt="Extensions"> EXTENSIONS
-            </a>
-        </div>
+    <div class="menu-icon" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
     </div>
+</div>
 
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const menuIcon = document.querySelector('.menu-icon');
-            menu.classList.toggle('active');
-            menuIcon.classList.toggle('active');
-        }
+<div class="mobile-menu" id="mobileMenu">
+    <a class="menu-item" href="extensions.html">Extensions <span>›</span></a>
+    <a class="menu-item" href="download.html">Download <span>›</span></a>
+    <a class="menu-item" href="info.html">Info <span>›</span></a>
 
-        // Close menu when clicking a link
-        document.querySelectorAll('.mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                toggleMenu();
-            });
-        });
-    </script>
+    <a class="menu-login" href="login.html">
+        ⤴ Login
+    </a>
+</div>
+
+<div class="hero">
+    <img src="logo.png" alt="Logo">
+    <h1>Sunshine Client</h1>
+    <p>A client for all modern versions of Minecraft</p>
+</div>
+
+<script>
+    function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("active");
+        document.querySelector(".menu-icon").classList.toggle("active");
+    }
+</script>
+
 </body>
 </html>

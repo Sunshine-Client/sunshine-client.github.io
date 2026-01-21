@@ -4,7 +4,7 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-s
 
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
-  authDomain: "sunshine-client.firebaseapp.com",
+  authDomain: "sunshine-client-a176e.firebaseapp.com",
   projectId: "YOUR_PROJECT_ID",
   storageBucket: "YOUR_PROJECT.appspot.com",
   appId: "YOUR_APP_ID"

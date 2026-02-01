@@ -154,6 +154,7 @@
       font-size: 32px;
       box-shadow: 0 4px 15px rgba(218, 165, 32, 0.5);
       flex-shrink: 0;
+      filter: grayscale(100%) brightness(2);
     }
 
     .user-info {
@@ -508,7 +509,7 @@
 
         <div class="action-buttons">
           <label class="action-btn">
-            <input type="file" accept=".mcpack,.zip" class="file-input" onchange="installPack(event)">
+            <input type="file" accept=".mcpack,.mcworld,.mcaddon,.zip" class="file-input" onchange="installPack(event)">
             <span style="font-size: 24px;">📁</span>
             <span>Resource Pack</span>
           </label>
@@ -676,12 +677,42 @@
     function launchGame() {
       const username = document.getElementById('username').value || 'Player';
       
-      // Try to launch Minecraft
+      // Show platform selection modal
+      const modalContent = document.getElementById('packModalContent');
+      modalContent.innerHTML = `
+        <div class="info-section">
+          <div class="info-title">Select Your Device</div>
+          <div class="info-text" style="margin-bottom: 20px;">
+            Choose your platform to launch Minecraft Bedrock
+          </div>
+        </div>
+        <button class="save-btn" onclick="launchMinecraftIOS()" style="margin-bottom: 10px;">
+          🍎 Launch on iOS
+        </button>
+        <button class="save-btn" onclick="launchMinecraftAndroid()">
+          🤖 Launch on Android
+        </button>
+      `;
+      document.getElementById('packModal').classList.add('active');
+    }
+
+    function launchMinecraftIOS() {
+      // iOS Minecraft launch
       window.location.href = 'minecraft://';
       
-      // Show message after a moment
       setTimeout(() => {
-        alert('Launching Minecraft Bedrock...\n\nIf Minecraft didn\'t open, make sure it\'s installed on your device.');
+        alert('Launching Minecraft on iOS...\n\nIf Minecraft didn\'t open, make sure it\'s installed from the App Store.');
+        closeModal('packModal');
+      }, 500);
+    }
+
+    function launchMinecraftAndroid() {
+      // Android Minecraft launch
+      window.location.href = 'minecraft://';
+      
+      setTimeout(() => {
+        alert('Launching Minecraft on Android...\n\nIf Minecraft didn\'t open, make sure it\'s installed from the Play Store.');
+        closeModal('packModal');
       }, 500);
     }
 
@@ -715,11 +746,14 @@
       document.getElementById('packModal').classList.add('active');
 
       // Check file extension
-      if (!file.name.endsWith('.mcpack') && !file.name.endsWith('.zip')) {
+      const validExtensions = ['.mcpack', '.mcworld', '.mcaddon', '.zip'];
+      const isValid = validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+      
+      if (!isValid) {
         modalContent.innerHTML = `
           <div class="pack-status" style="border-color: rgba(239, 68, 68, 0.5);">
             <div class="pack-status-title" style="color: #ef4444;">Invalid File</div>
-            <div class="pack-status-text">Please select a .mcpack file</div>
+            <div class="pack-status-text">Please select a .mcpack, .mcworld, or .mcaddon file</div>
           </div>
           <button class="save-btn" onclick="closeModal('packModal')">OK</button>
         `;
@@ -729,54 +763,68 @@
       // Create a blob URL for the file
       const url = URL.createObjectURL(file);
       
-      // Try to trigger Minecraft to open the pack
+      // Create download link
       const link = document.createElement('a');
       link.href = url;
       link.download = file.name;
       
-      // On Android, try to open with Minecraft
-      if (/android/i.test(navigator.userAgent)) {
-        // Create intent to open with Minecraft
-        const intent = `intent://import/#Intent;scheme=minecraft;package=com.mojang.minecraftpe;end`;
-        
-        setTimeout(() => {
-          modalContent.innerHTML = `
-            <div class="pack-status success">
-              <div class="pack-status-title">Pack Ready!</div>
-              <div class="pack-status-text">
-                <strong>${file.name}</strong><br><br>
-                Tap below to import to Minecraft:
-              </div>
-            </div>
-            <button class="save-btn" onclick="window.location.href='${url}'; closeModal('packModal');">
-              Open with Minecraft
-            </button>
-            <br><br>
-            <div class="info-text" style="text-align: center; padding: 0 10px;">
-              If that doesn't work, the pack has been downloaded to your device. 
-              Open it from your Downloads folder.
-            </div>
-          `;
-          
-          // Auto-download as backup
-          link.click();
-        }, 500);
-      } else {
-        // iOS or other - just download
-        setTimeout(() => {
-          modalContent.innerHTML = `
-            <div class="pack-status success">
-              <div class="pack-status-title">Downloading Pack</div>
-              <div class="pack-status-text">
-                <strong>${file.name}</strong> is being downloaded.<br><br>
-                Open the file from your downloads to import it to Minecraft.
-              </div>
-            </div>
-            <button class="save-btn" onclick="closeModal('packModal')">OK</button>
-          `;
-          link.click();
-        }, 500);
+      // Determine file type for messaging
+      let fileType = 'Resource Pack';
+      if (file.name.toLowerCase().endsWith('.mcworld')) {
+        fileType = 'World';
+      } else if (file.name.toLowerCase().endsWith('.mcaddon')) {
+        fileType = 'Add-on';
       }
+      
+      setTimeout(() => {
+        modalContent.innerHTML = `
+          <div class="pack-status success">
+            <div class="pack-status-title">${fileType} Ready!</div>
+            <div class="pack-status-text">
+              <strong>${file.name}</strong><br><br>
+              Choose how to import:
+            </div>
+          </div>
+          <button class="save-btn" onclick="tryOpenWithMinecraft('${url}', '${file.name}')" style="margin-bottom: 10px;">
+            📱 Try Open with Minecraft
+          </button>
+          <button class="save-btn" onclick="downloadPack('${url}', '${file.name}')">
+            💾 Download to Device
+          </button>
+          <br><br>
+          <div class="info-text" style="text-align: center; padding: 0 10px; font-size: 12px;">
+            If "Open with Minecraft" doesn't work, use "Download to Device" then open the file from your Downloads folder.
+          </div>
+        `;
+      }, 500);
+    }
+
+    function tryOpenWithMinecraft(url, filename) {
+      // Try to trigger Minecraft
+      window.location.href = 'minecraft://';
+      
+      // Also download as backup
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.click();
+      
+      setTimeout(() => {
+        alert('Attempting to open with Minecraft...\n\nIf it doesn\'t work, check your Downloads folder for the file.');
+        closeModal('packModal');
+      }, 1000);
+    }
+
+    function downloadPack(url, filename) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.click();
+      
+      setTimeout(() => {
+        alert(`Downloaded ${filename}!\n\nOpen the file from your Downloads folder to import it to Minecraft.`);
+        closeModal('packModal');
+      }, 500);
     }
 
     // Close modals when clicking overlay
@@ -789,4 +837,4 @@
     });
   </script>
 </body>
-  </html>
+</html>

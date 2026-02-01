@@ -67,12 +67,12 @@
     .icon-box {
       width: 45px;
       height: 45px;
-      background: linear-gradient(135deg, #FFD700, #DAA520);
+      background: #1a1a1a;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 15px rgba(218, 165, 32, 0.5);
+      box-shadow: 0 4px 15px rgba(218, 165, 32, 0.3);
       overflow: hidden;
     }
 
@@ -461,6 +461,77 @@
     .success .pack-status-title {
       color: #22c55e;
     }
+
+    /* Custom Alert/Toast */
+    .custom-alert {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #1F2937, #111);
+      border: 2px solid rgba(218, 165, 32, 0.5);
+      border-radius: 16px;
+      padding: 24px;
+      min-width: 280px;
+      max-width: 90%;
+      z-index: 2000;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      display: none;
+      animation: alertPop 0.3s;
+    }
+
+    @keyframes alertPop {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
+    .custom-alert.active {
+      display: block;
+    }
+
+    .alert-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #DAA520;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .alert-message {
+      font-size: 15px;
+      color: #D1D5DB;
+      margin-bottom: 20px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .alert-button {
+      background: linear-gradient(135deg, #FFD700, #DAA520);
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      width: 100%;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .alert-button:active {
+      transform: scale(0.98);
+    }
+
+    .alert-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1999;
+      display: none;
+    }
+
+    .alert-overlay.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -509,7 +580,7 @@
 
         <div class="action-buttons">
           <label class="action-btn">
-            <input type="file" accept=".mcpack,.mcworld,.mcaddon,.zip" class="file-input" onchange="installPack(event)">
+            <input type="file" accept=".mcpack,.mcworld,.mcaddon" class="file-input" onchange="installPack(event)">
             <span style="font-size: 24px;">📁</span>
             <span>Resource Pack</span>
           </label>
@@ -640,11 +711,32 @@
     </div>
   </div>
 
+  <!-- Custom Alert -->
+  <div class="alert-overlay" id="alertOverlay" onclick="closeAlert()"></div>
+  <div class="custom-alert" id="customAlert">
+    <div class="alert-title" id="alertTitle">Alert</div>
+    <div class="alert-message" id="alertMessage">Message</div>
+    <button class="alert-button" onclick="closeAlert()">OK</button>
+  </div>
+
   <script>
     let settings = {
       autoUpdate: false,
       keepOpen: false
     };
+
+    // Custom Alert Function
+    function showAlert(title, message) {
+      document.getElementById('alertTitle').textContent = title;
+      document.getElementById('alertMessage').textContent = message;
+      document.getElementById('customAlert').classList.add('active');
+      document.getElementById('alertOverlay').classList.add('active');
+    }
+
+    function closeAlert() {
+      document.getElementById('customAlert').classList.remove('active');
+      document.getElementById('alertOverlay').classList.remove('active');
+    }
 
     function openInfo() {
       document.getElementById('infoModal').classList.add('active');
@@ -670,8 +762,11 @@
     }
 
     function saveSettings() {
-      alert('Settings saved!');
-      closeModal('settingsModal');
+      showAlert('Settings Saved', 'Your launcher settings have been saved successfully!');
+      setTimeout(() => {
+        closeModal('settingsModal');
+        closeAlert();
+      }, 1500);
     }
 
     function launchGame() {
@@ -697,23 +792,40 @@
     }
 
     function launchMinecraftIOS() {
-      // iOS Minecraft launch
-      window.location.href = 'minecraft://';
+      closeModal('packModal');
+      
+      // Create a hidden iframe to trigger the URL scheme
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'minecraft://';
+      document.body.appendChild(iframe);
       
       setTimeout(() => {
-        alert('Launching Minecraft on iOS...\n\nIf Minecraft didn\'t open, make sure it\'s installed from the App Store.');
-        closeModal('packModal');
-      }, 500);
+        document.body.removeChild(iframe);
+        showAlert('Launching Minecraft', 'Opening Minecraft Bedrock on iOS...\n\nIf Minecraft didn\'t open, make sure it\'s installed from the App Store.');
+      }, 1000);
     }
 
     function launchMinecraftAndroid() {
-      // Android Minecraft launch
-      window.location.href = 'minecraft://';
+      closeModal('packModal');
+      
+      // Try multiple methods for Android
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = 'minecraft://';
+      document.body.appendChild(iframe);
+      
+      // Also try direct window.location as backup
+      setTimeout(() => {
+        window.location.href = 'minecraft://';
+      }, 100);
       
       setTimeout(() => {
-        alert('Launching Minecraft on Android...\n\nIf Minecraft didn\'t open, make sure it\'s installed from the Play Store.');
-        closeModal('packModal');
-      }, 500);
+        if (document.body.contains(iframe)) {
+          document.body.removeChild(iframe);
+        }
+        showAlert('Launching Minecraft', 'Opening Minecraft Bedrock on Android...\n\nIf Minecraft didn\'t open, make sure it\'s installed from the Play Store.');
+      }, 1000);
     }
 
     function installMinecraft() {
@@ -746,7 +858,7 @@
       document.getElementById('packModal').classList.add('active');
 
       // Check file extension
-      const validExtensions = ['.mcpack', '.mcworld', '.mcaddon', '.zip'];
+      const validExtensions = ['.mcpack', '.mcworld', '.mcaddon'];
       const isValid = validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
       
       if (!isValid) {
@@ -800,19 +912,26 @@
     }
 
     function tryOpenWithMinecraft(url, filename) {
-      // Try to trigger Minecraft
-      window.location.href = 'minecraft://';
-      
-      // Also download as backup
+      // Download the file
       const link = document.createElement('a');
       link.href = url;
       link.download = filename;
       link.click();
       
+      // Try to open Minecraft
       setTimeout(() => {
-        alert('Attempting to open with Minecraft...\n\nIf it doesn\'t work, check your Downloads folder for the file.');
-        closeModal('packModal');
-      }, 1000);
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = 'minecraft://';
+        document.body.appendChild(iframe);
+        
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+        }, 2000);
+      }, 500);
+      
+      closeModal('packModal');
+      showAlert('Pack Downloaded', 'File downloaded! Opening the file from your Downloads folder will import it to Minecraft.');
     }
 
     function downloadPack(url, filename) {
@@ -821,10 +940,8 @@
       link.download = filename;
       link.click();
       
-      setTimeout(() => {
-        alert(`Downloaded ${filename}!\n\nOpen the file from your Downloads folder to import it to Minecraft.`);
-        closeModal('packModal');
-      }, 500);
+      closeModal('packModal');
+      showAlert('Download Complete', `${filename} has been downloaded!\n\nOpen the file from your Downloads folder to import it to Minecraft.`);
     }
 
     // Close modals when clicking overlay

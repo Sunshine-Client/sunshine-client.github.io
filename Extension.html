@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extensions - Sunshine Client</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Montserrat", Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #1a4d4d 0%, #0d2626 50%, #000000 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ---------- TOP BAR ---------- */
+        .top-bar {
+            height: 100px;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            position: relative;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-left img {
+            height: 120px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-right a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* ---------- HAMBURGER ---------- */
+        .menu-icon {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            width: 30px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .menu-icon.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* ---------- MOBILE MENU ---------- */
+        .mobile-menu {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            right: 0;
+            background: rgba(10,10,10,0.96);
+            backdrop-filter: blur(12px);
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: 0.3s ease;
+            z-index: 9;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .menu-item {
+            padding: 24px 30px;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .menu-login {
+            margin: 25px 20px;
+            padding: 18px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 14px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* ---------- EXTENSIONS CONTAINER ---------- */
+        .extensions-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .extensions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .extension-box {
+            background: rgba(60, 60, 60, 0.4);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .extension-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .download-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 150%;
+            }
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #FFE55C 0%, #FFB700 50%, #FFE55C 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .nav-right {
+                display: none;
+            }
+
+            .menu-icon {
+                display: flex;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .extensions-container {
+                padding: 0 20px;
+                margin: 40px auto;
+            }
+
+            .page-title {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+
+            .extensions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-bar">
+    <div class="nav-left">
+        <a href="index.html"><img src="logo.png" alt="Home"></a>
+        <span class="logo-text">Sunshine Client</span>
+    </div>
+
+    <div class="nav-right">
+        <a href="extensions.html">Extensions</a>
+        <a href="download.html">Download</a>
+    </div>
+
+    <div class="menu-icon" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+    </div>
+</div>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a class="menu-item" href="extensions.html">Extensions <span>›</span></a>
+    <a class="menu-item" href="download.html">Download <span>›</span></a>
+    <a class="menu-item" href="info.html">Info <span>›</span></a>
+    <a class="menu-login" href="login.html">⤴ Login</a>
+</div>
+
+<div class="extensions-container">
+    <h1 class="page-title">Extensions</h1>
+    
+    <div class="extensions-grid">
+        <!-- Extension Box 1 -->
+        <div class="extension-box">
+            <div class="extension-title">Sunshine Client FPS+</div>
+            <a href="Sunshine Client FPS+.mcpack" class="download-btn" download>Download</a>
+        </div>
+
+        <!-- TO ADD MORE EXTENSIONS: Copy the entire extension-box div above and paste it here -->
+        <!-- Example:
+        <div class="extension-box">
+            <div class="extension-title">Your Extension Name</div>
+            <a href="your-file.mcpack" class="download-btn" download>Download</a>
+        </div>
+        -->
+    </div>
+</div>
+
+<script>
+    function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("active");
+        document.querySelector(".menu-icon").classList.toggle("active");
+    }
+</script>
+
+</body>
+</html>

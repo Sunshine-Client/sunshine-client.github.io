@@ -1,181 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Download | Sunshine Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download - Sunshine Client</title>
 
     <style>
-        /* Base */
-        body {
+        * {
             margin: 0;
-            font-family: "Montserrat", Arial, Helvetica, sans-serif;
-            color: white;
-            background-image: url("download_BG.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        /* Nav bar (same structure as index) */
-        .top-bar {
-            background-color: #000;
-            height: 167px;
-            display: flex;
-            align-items: center;
-            padding: 0 40px;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        .nav-items {
+        body {
+            font-family: "Montserrat", Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #1a4d4d 0%, #0d2626 50%, #000000 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ---------- TOP BAR ---------- */
+        .top-bar {
+            height: 100px;
+            padding: 0 40px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            position: relative;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-left img {
+            height: 120px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-right a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* ---------- HAMBURGER ---------- */
+        .menu-icon {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            width: 30px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .menu-icon.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-icon.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-icon.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* ---------- MOBILE MENU ---------- */
+        .mobile-menu {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            right: 0;
+            background: rgba(10,10,10,0.96);
+            backdrop-filter: blur(12px);
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: 0.3s ease;
+            z-index: 9;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .menu-item {
+            padding: 24px 30px;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .menu-login {
+            margin: 25px 20px;
+            padding: 18px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 14px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* ---------- DOWNLOAD CONTAINER ---------- */
+        .download-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        /* ---------- FEATURED VERSION ---------- */
+        .featured-version {
+            background: rgba(60, 60, 60, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .featured-label {
+            color: #FFD700;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .featured-title {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        /* ---------- PREVIOUS VERSIONS ---------- */
+        .section-title {
+            color: white;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .versions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 30px;
         }
 
-        .nav-items img {
-            height: 200px;
-            width: auto;
-            cursor: pointer;
-        }
-
-        .nav-items a {
-            color: white;
-            text-decoration: none;
-            font-size: 32px;
-            font-weight: 500;
-        }
-
-        .nav-items a:hover {
-            opacity: 0.85;
-        }
-
-        /* Main download section */
-        .download-hero {
-            min-height: calc(100vh - 167px);
+        .version-box {
+            background: rgba(60, 60, 60, 0.4);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .version-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* ---------- SHINY GOLD BUTTON ---------- */
+        .download-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-        }
-
-        /* Gold textured button */
-        .download-button {
-            font-size: 64px;
-            padding: 30px 90px;
-            border-radius: 16px;
+            gap: 10px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+            color: #000;
             border: none;
             cursor: pointer;
-            font-weight: 700;
-            color: #2b1c00;
-
-            background-image:
-                linear-gradient(
-                    135deg,
-                    #f6d365 0%,
-                    #fda085 100%
-                );
-            box-shadow:
-                inset 0 2px 4px rgba(255,255,255,0.6),
-                inset 0 -4px 6px rgba(0,0,0,0.25),
-                0 12px 30px rgba(0,0,0,0.45);
-
-            transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            position: relative;
+            overflow: hidden;
         }
 
-        .download-button:hover {
-            transform: translateY(-4px);
-            box-shadow:
-                inset 0 2px 4px rgba(255,255,255,0.6),
-                inset 0 -4px 6px rgba(0,0,0,0.25),
-                0 18px 40px rgba(0,0,0,0.6);
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
         }
 
-        .download-button:active {
-            transform: translateY(0);
+        @keyframes shine {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 150%;
+            }
         }
 
-        /* Scroll hint */
-        .scroll-hint {
-            margin-top: 40px;
+        .download-btn:hover {
+            background: linear-gradient(135deg, #FFE55C 0%, #FFB700 50%, #FFE55C 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .download-btn-large {
+            padding: 20px 50px;
             font-size: 22px;
-            opacity: 0.75;
         }
 
-        /* Previous versions section */
-        .versions {
-            padding: 120px 10%;
-            display: none; /* REMOVE THIS LINE WHEN YOU ADD VERSIONS */
-        }
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .nav-right {
+                display: none;
+            }
 
-        .versions h2 {
-            font-size: 56px;
-            margin-bottom: 40px;
-            text-align: center;
-        }
+            .menu-icon {
+                display: flex;
+            }
 
-        .version-entry {
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 12px;
-            padding: 30px 40px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+            .logo-text {
+                display: none;
+            }
 
-        .version-entry span {
-            font-size: 32px;
-            font-weight: 500;
-        }
+            .mobile-menu {
+                display: block;
+            }
 
-        .version-entry a {
-            font-size: 28px;
-            text-decoration: none;
-            color: #ffd36a;
-            font-weight: 600;
-        }
+            .download-container {
+                padding: 0 20px;
+                margin: 40px auto;
+            }
 
-        .version-entry a:hover {
-            text-decoration: underline;
+            .page-title {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+
+            .featured-version {
+                padding: 30px 25px;
+            }
+
+            .featured-title {
+                font-size: 26px;
+            }
+
+            .section-title {
+                font-size: 26px;
+            }
+
+            .versions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .download-btn-large {
+                padding: 18px 40px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Nav bar -->
-    <div class="top-bar">
-        <div class="nav-items">
-            <a href="index.html">
-                <img src="logo.png" alt="Home">
-            </a>
-            <a href="webUI/index.html">Extensions</a>
-            <a href="download.html">Download</a>
+<div class="top-bar">
+    <div class="nav-left">
+        <a href="index.html"><img src="logo.png" alt="Home"></a>
+        <span class="logo-text">Sunshine Client</span>
+    </div>
+
+    <div class="nav-right">
+        <a href="extensions.html">Extensions</a>
+        <a href="download.html">Download</a>
+    </div>
+
+    <div class="menu-icon" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+    </div>
+</div>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a class="menu-item" href="extensions.html">Extensions <span>›</span></a>
+    <a class="menu-item" href="download.html">Download <span>›</span></a>
+    <a class="menu-item" href="info.html">Info <span>›</span></a>
+    <a class="menu-login" href="login.html">⤴ Login</a>
+</div>
+
+<div class="download-container">
+    <h1 class="page-title">Download</h1>
+    
+    <!-- Featured Newest Version -->
+    <div class="featured-version">
+        <div class="featured-label">Latest Version</div>
+        <div class="featured-title">Sunshine Client V1</div>
+        <a href="Sunshine Client V1.mcpack" class="download-btn download-btn-large" download>Download</a>
+    </div>
+
+    <!-- Previous Versions Section -->
+    <h2 class="section-title">Previous Versions</h2>
+    <div class="versions-grid">
+        <!-- Previous Version 1 -->
+        <div class="version-box">
+            <div class="version-title">Sunshine Client Beta</div>
+            <a href="Sunshine Client Beta.mcpack" class="download-btn" download>Download</a>
         </div>
-    </div>
 
-    <!-- Main download button -->
-    <div class="download-hero">
-        <a href="PUT_DOWNLOAD_LINK_HERE">
-            <button class="download-button">Download Latest Version</button>
-        </a>
-        <div class="scroll-hint">Scroll down for older versions</div>
-    </div>
-
-    <!-- Previous versions (hidden for now) -->
-    <div class="versions">
-        <h2>Previous Versions</h2>
-
-        <!-- Copy this block to add more versions -->
-        <div class="version-entry">
-            <span>Sunshine Client v1.0.0</span>
-            <a href="PUT_OLD_VERSION_LINK_HERE">Download</a>
+        <!-- TO ADD MORE PREVIOUS VERSIONS: Copy the version-box div above and paste it here -->
+        <!-- Example:
+        <div class="version-box">
+            <div class="version-title">Sunshine Client Alpha</div>
+            <a href="Sunshine Client Alpha.mcpack" class="download-btn" download>Download</a>
         </div>
-        <!-- End version block -->
-
+        -->
     </div>
+</div>
+
+<script>
+    function toggleMenu() {
+        document.getElementById("mobileMenu").classList.toggle("active");
+        document.querySelector(".menu-icon").classList.toggle("active");
+    }
+</script>
 
 </body>
 </html>

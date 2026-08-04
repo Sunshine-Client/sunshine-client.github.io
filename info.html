@@ -1,0 +1,158 @@
+<div align="center">
+
+<img src="images/logo" alt="SunshineLauncher Logo">
+
+<h1>Sunshine Client</h1>
+
+<img src="https://camo.githubusercontent.com/bd7bd77cb422a267057d9863095b239b096d4f46dc831a37b45867a9acfad697/68747470733a2f2f63617073756c652d72656e6465722e76657263656c2e6170702f6170693f747970653d576176696e6726636f6c6f723d74696d654772616469656e74266865696768743d33303026616e696d6174696f6e3d66616465496e2673656374696f6e3d68656164657226746578743d4c6576694d4326666f6e7453697a653d313230" alt="Banner">
+
+<strong>A lightweight Android launcher for Minecraft: Bedrock Edition based on LeviLauncher</strong>
+
+<a href="https://github.com/LiteLDev/LeviLaunchroid/releases"><img src="https://img.shields.io/github/v/release/LiteLDev/LeviLaunchroid?style=flat-square&amp;color=blue" alt="GitHub Release"></a>
+<a href="https://github.com/LiteLDev/LeviLaunchroid/blob/main/LICENSE"><img src="https://img.shields.io/github/license/LiteLDev/LeviLaunchroid" alt="License: Apache 2.0"></a>
+<a href="https://github.com/LiteLDev/LeviLaunchroid/issues"><img src="https://img.shields.io/github/issues/LiteLDev/LeviLaunchroid?style=flat-square&amp;color=red" alt="Issues"></a>
+<a href="https://github.com/LiteLDev/LeviLaunchroid"><img src="https://img.shields.io/github/stars/LiteLDev/LeviLaunchroid?style=flat-square&amp;color=yellow" alt="Stars"></a>
+<a href="https://github.com/LiteLDev/LeviLaunchroid/releases"><img src="https://img.shields.io/github/downloads/LiteLDev/LeviLaunchroid/total.svg" alt="Downloads"></a>
+<a href="https://www.android.com/"><img src="https://img.shields.io/badge/Android-9.0%2B-green?style=flat-square&amp;logo=android" alt="Android"></a>
+
+</div>
+
+<hr>
+<h2 id="introduction">Introduction</h2>
+<p>LeviLauncher is a lightweight, open-source Android launcher specifically designed for legitimate players of Minecraft: Bedrock Edition (MCBE). It provides a flexible and user-friendly alternative to the standard Google Play installation, allowing you to manage multiple game versions and extend functionality with external modules.</p>
+<p>Sunshine Client enables you to import your official Minecraft APK and run it directly without requiring system installation. The launcher supports loading external native modules to enhance gameplay, provides robust multi-version management with complete isolation between installations, and includes built-in tools for managing resource packs and worlds. Whether you&#39;re looking to organize different game versions, test modifications, or optimize your gaming experience, Sunshine Client offers the flexibility you need.</p>
+<h3 id="key-features">Key Features</h3>
+<ul>
+<li><strong>APK Import &amp; Installation-Free Launching</strong> – Import your official Minecraft APK and run it directly without system installation</li>
+<li><strong>SO Module Loading</strong> – Load external native SO modules to extend or enhance Minecraft features and performance</li>
+<li><strong>Multi-Version Management &amp; Version Isolation</strong> – Manage multiple Minecraft versions independently, with separated configurations and data</li>
+<li><strong>Multiple Xbox Account Management</strong> – Manage multiple Xbox accounts inside the launcher and switch between them seamlessly</li>
+<li><strong>Resource Pack &amp; World Management</strong> – Import, export, and back up your resource packs and worlds with the built-in manager</li>
+</ul>
+<hr>
+<h2 id="system-requirements">System Requirements</h2>
+<p>Before installing Sunshine Client, ensure your device meets the following minimum specifications:</p>
+<ul>
+<li><strong>Operating System:</strong> Android 9.0 (API 28) or higher</li>
+<li><strong>Device Architecture:</strong> ARM64 (v8a)</li>
+<li><strong>RAM:</strong> Minimum 1 GB available RAM (2 GB or more recommended)</li>
+<li><strong>Storage:</strong> At least 2 GB of available storage for Minecraft and game data</li>
+<li><strong>License Requirement:</strong> You must own a licensed copy of Minecraft Bedrock Edition purchased from Google Play</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> For optimal performance and stability, we recommend Android 9.0 or higher with at least 3 GB of available RAM and 5 GB of free storage.</p>
+</blockquote>
+<hr>
+<h2 id="installation">Installation</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before proceeding with Sunshine Clients installation, ensure that you have the official Minecraft Bedrock Edition app installed on your device from Google Play. This is required for Sunshine Client to function properly.</p>
+<h3 id="installation-steps">Installation Steps</h3>
+<ol>
+<li>Visit the <a href="https://github.com/Sunshine-Client/Sunshine-Client-Android/releases">Releases Page</a> and download the latest APK build</li>
+<li>Open your device Settings and navigate to Security or Applications</li>
+<li>Enable &quot;Unknown Sources&quot; or &quot;Allow installation from unknown sources&quot; to permit APK installation</li>
+<li>Locate the downloaded APK file using your file manager and tap to install</li>
+<li>Grant the necessary permissions when prompted during installation</li>
+<li>Once installed, open LeviLauncher from your application drawer</li>
+</ol>
+<blockquote>
+<p><strong>Important:</strong> Sunshine Client requires a legitimate, licensed copy of Minecraft Bedrock Edition. Do not use this launcher with pirated or unauthorized versions of the game. Ensure your Minecraft license is valid and properly linked to your Microsoft account.</p>
+</blockquote>
+<hr>
+<h2 id="development-setup">Development Setup</h2>
+<p>If you want to build LeviLauncher from source or contribute to development, follow these steps to set up your development environment:</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Git installed on your system</li>
+<li>Android Studio (latest version recommended)</li>
+<li>Java Development Kit (JDK) 21 or higher</li>
+<li>Android SDK with API level 28 or higher</li>
+</ul>
+<h3 id="setup-instructions">Setup Instructions</h3>
+<ol>
+<li><p>Clone the LeviLauncher repository:</p>
+<pre><code class="lang-bash">git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/LiteLDev/LeviLaunchroid.git
+</code></pre>
+</li>
+<li><p>Open the project directory in Android Studio</p>
+</li>
+<li><p>Allow Android Studio to download and install required dependencies and build tools</p>
+</li>
+<li><p>Wait for Gradle to complete the initial sync process</p>
+</li>
+<li><p>Connect your Android device or start an emulator (API 28+)</p>
+</li>
+<li><p>Click the &quot;Run&quot; button in Android Studio to build and deploy to your device</p>
+</li>
+<li><p>The app will launch automatically on successful build completion</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Build Tip:</strong> For faster builds during development, use <code>Build &gt; Make Project</code> to compile incrementally instead of full rebuilds.</p>
+</blockquote>
+<hr>
+<h2 id="contribution-guidelines">Contribution Guidelines</h2>
+<p>We welcome contributions from the community to improve LeviLauncher. To ensure a high-quality codebase and smooth collaboration, please adhere to the following guidelines:</p>
+<h3 id="code-quality">Code Quality</h3>
+<p>Write clean, modular code with descriptive variable names and consistent formatting. Follow Kotlin and Java style guidelines established in the project. Ensure your code is readable and well-structured for future maintainers.</p>
+<h3 id="commit-structure">Commit Structure</h3>
+<p>Use small, focused commits with clear and descriptive messages. Each commit should address a single feature or bug fix. Example: &quot;Fixed memory leak in version manager&quot; or &quot;Added support for ARM32 architecture&quot;.</p>
+<h3 id="documentation">Documentation</h3>
+<p>Add comments for complex logic and update relevant documentation in the repository. If you add new features, update the README and any related documentation files.</p>
+<h3 id="performance">Performance</h3>
+<p>Optimize all additions to maintain low latency and smooth performance. Test your changes thoroughly to ensure they don&#39;t introduce lag or performance regressions.</p>
+<h3 id="testing">Testing</h3>
+<p>Test all changes on multiple devices and Android versions to ensure compatibility and stability.</p>
+<h3 id="pull-requests">Pull Requests</h3>
+<p>Submit PRs with a detailed description of changes, including the problem solved or feature added. Reference any related issues and provide screenshots or videos if your changes affect the UI.</p>
+<h3 id="community-standards">Community Standards</h3>
+<p>Follow our Code of Conduct to maintain a respectful and inclusive environment. Be constructive in feedback, respect others&#39; work, and communicate professionally with all contributors.</p>
+<p><strong>Before Submitting:</strong> Run a full build cycle and test on at least one device to minimize errors. We review all contributions promptly and appreciate your efforts to enhance LeviLauncher.</p>
+<hr>
+<h2 id="usage-guidelines">Usage Guidelines</h2>
+<p>LeviLauncher is designed for legitimate players of Minecraft Bedrock Edition. Please respect the following guidelines and terms of use:</p>
+<h3 id="permitted-uses">Permitted Uses</h3>
+<ul>
+<li>Modify LeviLauncher for personal gameplay and to test new features</li>
+<li>Create educational content (videos, tutorials, blog posts) showcasing LeviLauncher&#39;s capabilities</li>
+<li>Fork the repository for learning purposes or to create derivative projects, provided you comply with the Apache License 2.0</li>
+<li>Share your modified versions with others as long as you comply with the Apache License 2.0 terms</li>
+</ul>
+<h3 id="prohibited-uses">Prohibited Uses</h3>
+<ul>
+<li>Do not claim LeviLauncher as your own without crediting the LeviMC team and its contributors</li>
+<li>Do not use LeviLauncher to violate Mojang or Microsoft&#39;s user agreements</li>
+</ul>
+<blockquote>
+<p><strong>Disclaimer:</strong> The authors and contributors of LeviLauncher are not responsible for bans, damages, or issues arising from the use of this software. Use it at your own risk and in accordance with Minecraft&#39;s terms of service.</p>
+</blockquote>
+<p>For full legal details, see the LICENSE and NOTICE files in the repository.</p>
+<hr>
+<h2 id="credits-acknowledgements">Credits &amp; Acknowledgements</h2>
+<p>LeviLauncher would not be possible without the contributions and support of many talented individuals and organizations:</p>
+<h3 id="special-thanks-to">Special Thanks To</h3>
+<ul>
+<li><strong>LeviMC Organization</strong> – For maintaining the LeviLauncher project and providing infrastructure support</li>
+<li><strong>Android Community</strong> – For excellent documentation, libraries, and tools that made this launcher possible</li>
+<li><strong>Open Source Community</strong> – For all the libraries, frameworks, and tools that power this project</li>
+<li><strong>Contributors</strong> – A heartfelt thank you to all <a href="https://github.com/LiteLDev/LeviLaunchroid/graphs/contributors">contributors</a> who have continuously improved and maintained LeviLauncher through their time and expertise</li>
+</ul>
+<hr>
+<h2 id="contact-support">Contact &amp; Support</h2>
+<p><strong>Author / Team:</strong> LeviMC Team</p>
+<p><strong>Project Repository:</strong> <a href="https://github.com/LiteLDev/LeviLaunchroid">https://github.com/LiteLDev/LeviLaunchroid</a></p>
+<p><strong>Report Issues:</strong> <a href="https://github.com/LiteLDev/LeviLaunchroid/issues">GitHub Issues Page</a></p>
+<p><strong>For support and questions:</strong> Please create an issue on the GitHub repository or contact the LeviMC team directly</p>
+<hr>
+<div align="center">
+
+<a href="https://github.com/LiteLDev/LeviLaunchroid/releases"><img src="https://img.shields.io/github/v/release/LiteLDev/LeviLaunchroid?style=flat-square&amp;color=blue" alt="GitHub Release"></a>
+<a href="https://www.apache.org/licenses/LICENSE-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="License: Apache 2.0"></a>
+<a href="https://github.com/LiteLDev/LeviLaunchroid/issues"><img src="https://img.shields.io/github/issues/LiteLDev/LeviLaunchroid?style=flat-square&amp;color=red" alt="Issues"></a>
+<a href="https://github.com/LiteLDev/LeviLaunchroid"><img src="https://img.shields.io/github/stars/LiteLDev/LeviLaunchroid?style=flat-square&amp;color=yellow" alt="Stars"></a>
+<a href="https://github.com/LiteLDev/LeviLaunchroid/releases"><img src="https://img.shields.io/github/downloads/LiteLDev/LeviLaunchroid/total.svg" alt="Downloads"></a>
+<a href="https://www.android.com/"><img src="https://img.shields.io/badge/Android-9.0%2B-green?style=flat-square&amp;logo=android" alt="Android"></a>
+
+<strong>Made with ❤️ by the LeviMC Community</strong>
+
+</div>
